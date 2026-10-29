@@ -1,0 +1,1652 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1F4D3A">
+<meta name="description" content="B&B CO. HQ: lawns, jobs, clients, quotes, invoices, expenses and crew.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="B&amp;B HQ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px system-ui,-apple-system,sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+#gate{position:fixed;inset:0;z-index:300;background:#1F4D3A;color:#fff;display:grid;place-items:center;padding:24px 16px;--logo-ink:#FFFFFF;--logo-cut:#1F4D3A}
+.gate-btn{border:0;border-radius:999px;background:#fff;color:#1F4D3A;font:600 1rem system-ui,sans-serif;padding:14px 26px;cursor:pointer;margin-top:6px}
+.gate-btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
+</style>
+<title>B&amp;B CO. HQ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+/* Layout: top bar + single working column; bottom tab bar on phones. Lawn-green accent on cool sage neutrals. */
+:root{
+  --bg:#F2F4F2; --surface:#FFFFFF; --surface-2:#E8EDEA; --ink:#13221B; --muted:#5A675F; --line:#D6DDD8;
+  --accent:#1F4D3A; --accent-ink:#FFFFFF; --accent-soft:#DDE9E2;
+  --logo-ink:#1F4D3A; --logo-cut:#FFFFFF;
+  --gold:#B08A2E; --gold-bright:#C9A54C; --hero-bg:#1F4D3A; --hero-ink:#FFFFFF;
+  --warn:#A5560C; --warn-soft:#F8E5D0; --bad:#AE3A2C; --bad-soft:#F6DAD5; --good:#1F6B4A;
+  --c-mow:#1F4D3A; --c-proj:#C9A54C; --c-exp:#A4462F;
+  --f-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --f-body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D1612; --surface:#14201A; --surface-2:#1C2B23; --ink:#E7ECE8; --muted:#9BA89F; --line:#26362D;
+  --accent:#6DB28E; --accent-ink:#0B1A12; --accent-soft:#1B3328;
+  --logo-ink:#FFFFFF; --logo-cut:#14201A;
+  --gold:#D9B95E; --gold-bright:#D9B95E; --hero-bg:#1F4D3A; --hero-ink:#FFFFFF;
+  --warn:#E89A50; --warn-soft:#3B2614; --bad:#EC7F72; --bad-soft:#3D1F1A; --good:#6DB28E;
+  --c-mow:#3F8A66; --c-proj:#D9B95E; --c-exp:#E07A5F; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0D1612; --surface:#14201A; --surface-2:#1C2B23; --ink:#E7ECE8; --muted:#9BA89F; --line:#26362D;
+  --accent:#6DB28E; --accent-ink:#0B1A12; --accent-soft:#1B3328;
+  --logo-ink:#FFFFFF; --logo-cut:#14201A;
+  --gold:#D9B95E; --gold-bright:#D9B95E; --hero-bg:#1F4D3A; --hero-ink:#FFFFFF;
+  --warn:#E89A50; --warn-soft:#3B2614; --bad:#EC7F72; --bad-soft:#3D1F1A; --good:#6DB28E;
+  --c-mow:#3F8A66; --c-proj:#D9B95E; --c-exp:#E07A5F; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.15;text-wrap:balance}
+h2{font-size:1.45rem;font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.label{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:20px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:1.15rem;white-space:nowrap}
+.brand-mark{width:39px;height:35px;display:block;flex:none}.brand-mark svg{width:100%;height:100%;display:block}
+.brand small{color:var(--gold)!important;font-weight:700!important;letter-spacing:.08em}
+.brand small{font-family:var(--f-body);font-weight:500;color:var(--muted);font-size:.8rem;margin-left:2px}
+.nav{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap}
+.nav button{border:0;background:none;padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--muted);font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:7px}
+.nav button svg{width:17px;height:17px}
+.nav button:hover{background:var(--surface-2);color:var(--ink)}
+.nav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.more-btn{display:none!important}
+@media (max-width:1120px) and (min-width:821px){.nav button{padding:8px 9px;font-size:.84rem}.nav button svg{display:none}}
+.gear{border:1px solid var(--line);background:none;border-radius:8px;width:36px;height:36px;display:grid;place-items:center;cursor:pointer;color:var(--muted)}
+.gear[aria-current="page"]{color:var(--accent);border-color:var(--accent)}
+
+#vshell,#vbody{display:grid;gap:18px;min-width:0}
+main{max-width:1180px;margin:0 auto;padding-block:22px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:18px}
+.vhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.vhead h2{margin-right:auto}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.toolbar > *{min-width:0}
+
+/* controls */
+.btn{border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.danger{color:var(--bad);border-color:var(--bad-soft)}
+.btn.ghost{border-color:transparent;background:none}
+.btn.sm{padding:5px 10px;font-size:.82rem}
+.btn:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.inp, select.inp, textarea.inp{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 10px;min-width:0;width:100%}
+.inp:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.toolbar .inp{width:auto}
+.search{min-width:180px;flex:1 1 200px;max-width:320px}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:9px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:6px 11px;border-radius:7px;cursor:pointer;font-weight:600;font-size:.84rem;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+.panel > h3{margin-bottom:12px;display:flex;align-items:baseline;gap:8px}
+.panel > h3 .muted{font-family:var(--f-body);font-weight:500;font-size:.85rem;margin-left:auto}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:18px}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+@media (max-width:520px){.kpi.hero{grid-column:1/-1}.kpi .v{font-size:1.4rem}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;min-width:0}
+.kpi .v{font-family:var(--f-display);font-size:1.7rem;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:.82rem;color:var(--muted)}
+.kpi.hero{background:var(--hero-bg);border-color:var(--hero-bg);color:var(--hero-ink)}
+.kpi.hero .label{color:var(--gold-bright);opacity:1}
+.kpi.hero .s{color:inherit;opacity:.82}
+.kpi.hero .goal > div{background:var(--gold-bright)}
+.kpi .s b{font-weight:600}
+.up{color:var(--good)} .down{color:var(--bad)}
+.kpi.hero .up,.kpi.hero .down{color:inherit}
+
+/* chart */
+.chart svg{display:block;width:100%;height:auto}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+/* lists / tables */
+.tbl-wrap{overflow-x:auto;margin:0 -16px;padding:0 16px}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:var(--surface-2)}
+.month-row td{background:var(--surface-2);font-weight:600;font-size:.82rem;padding:6px 10px}
+.bars{display:grid;gap:9px}
+.bar-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;font-size:.88rem}
+.bar-row .track{grid-column:1/-1;height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.bar-row .fill{height:100%;background:var(--accent);border-radius:3px}
+.empty{padding:26px 10px;text-align:center;color:var(--muted)}
+
+/* pills */
+.pill{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted);white-space:nowrap;letter-spacing:.02em}
+.pill.green{background:var(--accent-soft);color:var(--accent)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+button.pill{border:0;cursor:pointer}
+
+/* week checklist */
+.wk-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.wk-range{font-family:var(--f-display);font-size:1.25rem;font-weight:700}
+.progress{height:10px;border-radius:5px;background:var(--surface-2);overflow:hidden}
+.progress > div{height:100%;background:var(--accent);transition:width .3s}
+.lawns{display:grid;gap:8px}
+.lawn{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;user-select:none}
+.lawn:hover{border-color:var(--muted)}
+.lawn .box{width:26px;height:26px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;color:transparent}
+.lawn.done{background:var(--accent-soft);border-color:transparent}
+.lawn.done .box{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.lawn .who{min-width:0}
+.lawn .who b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lawn .who span{font-size:.82rem;color:var(--muted)}
+.lawn .end{display:flex;align-items:center;gap:8px}
+.lawn .price{font-weight:700;font-variant-numeric:tabular-nums}
+details.more{border-top:1px dashed var(--line);padding-top:10px}
+details.more summary{cursor:pointer;font-weight:600;color:var(--muted);font-size:.9rem}
+details.more .lawns{margin-top:10px}
+
+/* dialog */
+dialog{border:0;border-radius:14px;padding:0;width:min(760px,calc(100vw - 24px));max-height:calc(100dvh - 32px);background:var(--surface);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+dialog::backdrop{background:rgba(10,20,14,.45)}
+.dlg{display:flex;flex-direction:column;max-height:calc(100dvh - 32px)}
+.dlg-h{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.dlg-h h3{font-size:1.2rem;margin-right:auto}
+.dlg .dlg{min-height:0;flex:1 1 auto}
+.dlg-b{padding:16px 18px;overflow:auto;display:grid;gap:14px;min-height:0;flex:1 1 auto;align-content:start}
+.dlg-f{display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px;border-top:1px solid var(--line);align-items:center}
+.dlg-f .sp{margin-right:auto}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
+.field{display:grid;gap:5px;min-width:0}
+.field > span{font-size:.8rem;font-weight:600;color:var(--muted)}
+.field.wide{grid-column:1/-1}
+.check{display:flex;align-items:center;gap:8px;font-weight:500}
+.check input{width:18px;height:18px;accent-color:var(--accent)}
+.items{display:grid;gap:8px}
+.item{display:grid;grid-template-columns:minmax(0,1fr) 70px 100px 90px 32px;gap:8px;align-items:center}
+.item .tot{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.items-h{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.totals{display:grid;justify-content:end;gap:4px;text-align:right}
+.totals div{display:flex;gap:24px;justify-content:space-between}
+.totals .grand{font-family:var(--f-display);font-size:1.3rem;font-weight:700}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stat{background:var(--surface-2);border-radius:8px;padding:10px 12px}
+.stat b{display:block;font-family:var(--f-display);font-size:1.2rem;font-variant-numeric:tabular-nums}
+.confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--bad-soft);color:var(--bad);padding:8px 10px;border-radius:8px;font-weight:600}
+.msgbox{width:100%;min-height:150px}
+.goal{height:6px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden;margin-top:4px}
+.goal > div{height:100%;background:currentColor}
+.kpi:not(.hero) .goal{background:var(--surface-2)} .kpi:not(.hero) .goal > div{background:var(--accent)}
+.receipt{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.receipt img{max-height:90px;border-radius:6px;border:1px solid var(--line)}
+.contact{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:50;max-width:calc(100vw - 32px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.toast.bad{background:var(--bad);color:#fff}
+.toast{display:flex;align-items:center;gap:14px}
+.toast-undo{border:0;background:none;color:inherit;font-weight:700;text-decoration:underline;cursor:pointer;padding:4px 2px}
+.state{padding:60px 16px;text-align:center;color:var(--muted)}
+.state h2{color:var(--ink);margin-bottom:8px}
+
+/* phone */
+@media (max-width:820px){
+  .nav{position:fixed;left:0;right:0;bottom:0;margin:0;background:var(--surface);border-top:1px solid var(--line);flex-wrap:nowrap;justify-content:space-around;padding:6px max(6px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px));z-index:25}
+  .nav button{flex-direction:column;gap:2px;font-size:.68rem;padding:6px 4px;flex:1;min-width:0}
+  .nav button svg{width:21px;height:21px}
+  .top-in{justify-content:space-between}
+  main{padding-bottom:110px}
+  .item{grid-template-columns:minmax(0,1fr) 56px 80px 28px}
+  .item .tot{display:none}
+  .hide-sm{display:none}
+  .nav [data-sec]{display:none}
+  .more-btn{display:flex!important}
+  .lawn{padding:12px}
+  .lawn .end .pill{padding:6px 11px;font-size:.78rem}
+  .lawn .end .pill:not(button){display:none}
+  .vhead .toolbar{width:100%}
+}
+#lock{position:fixed;inset:0;z-index:200;background:var(--hero-bg);color:#fff;display:grid;place-items:center;padding:calc(24px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));overflow:auto;--logo-ink:#FFFFFF;--logo-cut:#1F4D3A}
+[hidden]{display:none!important}
+.lock-in{display:grid;justify-items:center;gap:14px;width:min(320px,100%)}
+.lock-logo{width:84px;height:75px}.lock-logo svg{width:100%;height:100%}
+.lock-name{font-size:1.6rem;color:#fff}
+.lock-msg{margin:0;color:#C9A54C;font-weight:600;min-height:1.4em;text-align:center}
+.dots{display:flex;gap:16px;margin:4px 0 10px}.dots i{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.75)}.dots i.on{background:#fff;border-color:#fff}
+.dots.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+.keypad{display:grid;grid-template-columns:repeat(3,72px);gap:14px 22px}
+.keypad button{width:72px;height:72px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.6rem;font-family:var(--f-display);font-weight:600;cursor:pointer}
+.keypad button:active,.keypad button:hover{background:rgba(255,255,255,.24)}
+.keypad button:disabled{opacity:.35}
+.lock-help{font-size:.8rem;opacity:.7;text-align:center;margin:8px 0 0}
+.pinrow{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.pinrow .field{width:150px}
+@media (max-width:1240px) and (min-width:821px){.nav button{padding:8px 8px;font-size:.82rem}.nav button svg{display:none}}
+.blk.now{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.blk.free:not(.done){border-style:dashed}
+.pill.gold{background:color-mix(in srgb,var(--gold-bright) 20%,transparent);color:var(--gold)}
+.habit{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-weight:600;font-size:.86rem;cursor:pointer}
+.habit svg{width:14px;height:14px}.habit small{color:var(--muted);font-weight:600}
+.habit.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.habit.on small{color:inherit;opacity:.8}
+.bedit{display:grid;gap:8px}
+.brow{display:grid;grid-template-columns:92px 92px minmax(0,1fr) 110px 32px;gap:6px;align-items:center}
+@media (max-width:620px){.brow{grid-template-columns:1fr 1fr 32px}.brow [data-bk="title"]{grid-column:1/-1;order:-1}.brow select{grid-column:1/3}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+
+</head>
+<body>
+<div id="gate" hidden role="dialog" aria-modal="true" aria-label="Sign in">
+  <div class="lock-in">
+    <span class="lock-logo" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 64"><path d="M7 32 36 8l29 24" fill="none" stroke="var(--logo-ink)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><rect x="50" y="10" width="6" height="13" rx="1.5" fill="var(--logo-ink)"/><path d="M26.5 17.5c-1.5-9.5-9-14-18.5-13c1 9 8.5 14.5 18.5 13z" fill="#C9A54C"/><path d="M25.5 16.5C21 12 15 8.5 9.5 6" stroke="var(--logo-cut)" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".8"/><g transform="translate(18 29)"><rect width="17" height="15" rx="2.5" fill="var(--logo-ink)"/><rect x="19" width="17" height="15" rx="2.5" fill="#C9A54C"/><rect y="17" width="17" height="15" rx="2.5" fill="#C9A54C"/><rect x="19" y="17" width="17" height="15" rx="2.5" fill="var(--logo-ink)"/><g stroke="var(--logo-cut)" stroke-width="2.2" opacity=".5" stroke-linecap="round"><path d="M3 5h11M3 10h11M22 22h11M22 27h11"/></g></g></svg></span>
+    <h1 class="lock-name">B&amp;B CO. HQ</h1>
+    <p class="lock-msg" id="gateMsg">Sign in with your Google account to open your business.</p>
+    <button type="button" class="gate-btn" id="gateBtn">Sign in with Google</button>
+    <button type="button" class="gate-btn ghost" id="gateOut" hidden>Sign out</button>
+  </div>
+</div>
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 64"><path d="M7 32 36 8l29 24" fill="none" stroke="var(--logo-ink)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><rect x="50" y="10" width="6" height="13" rx="1.5" fill="var(--logo-ink)"/><path d="M26.5 17.5c-1.5-9.5-9-14-18.5-13c1 9 8.5 14.5 18.5 13z" fill="#C9A54C"/><path d="M25.5 16.5C21 12 15 8.5 9.5 6" stroke="var(--logo-cut)" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".8"/><g transform="translate(18 29)"><rect width="17" height="15" rx="2.5" fill="var(--logo-ink)"/><rect x="19" width="17" height="15" rx="2.5" fill="#C9A54C"/><rect y="17" width="17" height="15" rx="2.5" fill="#C9A54C"/><rect x="19" y="17" width="17" height="15" rx="2.5" fill="var(--logo-ink)"/><g stroke="var(--logo-cut)" stroke-width="2.2" opacity=".5" stroke-linecap="round"><path d="M3 5h11M3 10h11M22 22h11M22 27h11"/></g></g></svg></span><span>B&amp;B CO. <small>HQ</small></span></div>
+    <nav class="nav" id="nav" aria-label="Sections">
+      <button data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Overview</button>
+      <button data-go="week"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M8 15l2.5 2.5L16 12"/></svg>Lawns</button>
+      <button data-go="jobs" data-sec><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Jobs</button>
+      <button data-go="clients"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-7 7-7s7 3 7 7M17 4a4 4 0 0 1 0 8M22 21c0-3-1.5-5.5-4-6.5"/></svg>Clients</button>
+      <button data-go="billing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h5"/></svg>Billing</button>
+      <button data-go="costs" data-sec><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Expenses</button>
+      <button data-go="pricing" data-sec><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg>Pricing</button>
+      <button data-go="crew" data-sec><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Crew</button>
+      <button class="more-btn" data-act="more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>More</button>
+    </nav>
+    <button class="gear" id="lockBtn" data-act="lockNow" aria-label="Lock app" title="Lock app" hidden><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></button>
+    <button class="gear" data-go="settings" aria-label="Settings" title="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+  </div>
+</header>
+
+<main id="main">
+  <div class="state" id="boot"><h2>Loading your business…</h2><p>Clients, jobs and invoices will appear here in a moment.</p></div>
+  <div id="vshell" hidden></div>
+  <div id="vbody" hidden></div>
+</main>
+<div id="lock" hidden role="dialog" aria-modal="true" aria-label="Enter passcode">
+  <div class="lock-in">
+    <span class="lock-logo" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 64"><path d="M7 32 36 8l29 24" fill="none" stroke="var(--logo-ink)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><rect x="50" y="10" width="6" height="13" rx="1.5" fill="var(--logo-ink)"/><path d="M26.5 17.5c-1.5-9.5-9-14-18.5-13c1 9 8.5 14.5 18.5 13z" fill="#C9A54C"/><path d="M25.5 16.5C21 12 15 8.5 9.5 6" stroke="var(--logo-cut)" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".8"/><g transform="translate(18 29)"><rect width="17" height="15" rx="2.5" fill="var(--logo-ink)"/><rect x="19" width="17" height="15" rx="2.5" fill="#C9A54C"/><rect y="17" width="17" height="15" rx="2.5" fill="#C9A54C"/><rect x="19" y="17" width="17" height="15" rx="2.5" fill="var(--logo-ink)"/><g stroke="var(--logo-cut)" stroke-width="2.2" opacity=".5" stroke-linecap="round"><path d="M3 5h11M3 10h11M22 22h11M22 27h11"/></g></g></svg></span>
+    <h1 class="lock-name">B&amp;B CO.</h1>
+    <p class="lock-msg" id="lockMsg">Enter your passcode</p>
+    <div class="dots" id="lockDots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="keypad" id="keypad">
+      <button type="button" data-key="1">1</button><button type="button" data-key="2">2</button><button type="button" data-key="3">3</button>
+      <button type="button" data-key="4">4</button><button type="button" data-key="5">5</button><button type="button" data-key="6">6</button>
+      <button type="button" data-key="7">7</button><button type="button" data-key="8">8</button><button type="button" data-key="9">9</button>
+      <span></span><button type="button" data-key="0">0</button><button type="button" data-key="del" aria-label="Delete">⌫</button>
+    </div>
+    <p class="lock-help">Forgot it? Ask Claude in your chat to turn the passcode off.</p>
+  </div>
+</div>
+<dialog id="dlg"><div class="dlg" id="dlgc"></div></dialog>
+<div class="toast" id="toast" hidden></div>
+
+<script>window.__fbReady=new Promise(function(r){window.__fbResolve=r});window.claude={use:function(n){return window.__fbReady.then(function(f){return f.use(n)})}};</script>
+<script>
+(() => {
+'use strict';
+// ---------- helpers ----------
+const $ = s => document.querySelector(s);
+const pad = n => String(n).padStart(2, '0');
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const parse = s => { const [y, m, d] = String(s).split('-').map(Number); return new Date(y, (m || 1) - 1, d || 1); };
+const today = () => ymd(new Date());
+const mondayOf = s => { const d = parse(s); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return ymd(d); };
+const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return ymd(d); };
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS_L = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const fmtDate = s => { if (!s) return ''; const d = parse(s); return `${MONTHS[d.getMonth()]} ${d.getDate()}`; };
+const fmtDateY = s => { if (!s) return ''; const d = parse(s); return `${MONTHS_L[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`; };
+const r2 = n => Math.round((Number(n) || 0) * 100) / 100;
+const money = (n, dec = true) => { n = Number(n) || 0; const neg = n < 0; const s = Math.abs(n).toLocaleString('en-CA', { minimumFractionDigits: dec ? 2 : 0, maximumFractionDigits: dec ? 2 : 0 }); return (neg ? '−$' : '$') + s; };
+const money0 = n => money(n, false);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clone = o => JSON.parse(JSON.stringify(o ?? null));
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const firstName = n => { const f = String(n || '').trim().split(/\s+/)[0]; return f && !/^\d/.test(f) ? f : 'there'; };
+const FREQ = { weekly: 'Weekly', biweekly: 'Bi-weekly', monthly: 'Monthly plan', oncall: 'On call', none: 'Projects only' };
+const PAY = { each: 'Pays each cut', monthend: 'Pays month-end for cuts', plan: 'Monthly plan' };
+const payType = c => c.pay || (c.frequency === 'monthly' ? 'plan' : 'each');
+const weekGroup = ws => { const n = Math.round((parse(ws) - parse('2026-01-05')) / 604800000); return ((n % 2) + 2) % 2 === 0 ? 'A' : 'B'; };
+const EXP_CATS = ['Fuel','Labour','Supplies','Equipment','Equipment maintenance','Vehicle','Marketing','Insurance','Dump fees','Phone & software','Other'];
+const DEFAULT_SERVICES = ['Lawn mowing','Spring cleanup','Fall cleanup','Garden cleanup','Weeding','Mulching','Hedge trimming','Bush removal','Tree removal','Pressure washing','Deck restoration','Fence staining','Pergola restoration','Landscape edging','Gravel pathway','Aeration + overseeding','Gutter cleaning','Snow removal'];
+const ICON_CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+
+// ---------- state ----------
+const S = {
+  db: null, readOnly: false,
+  clients: {}, jobs: {}, weeks: {}, expenses: {}, quotes: {}, invoices: {}, crew: {}, shifts: {}, weekplans: {},
+  settings: {}, loaded: new Set(),
+  view: 'home', year: new Date().getFullYear(), weekStart: mondayOf(today()),
+  f: { jobsQ: '', jobsMonth: 'all', jobsType: 'all', jobsPaid: 'all', clientsQ: '', clientsF: 'active', billTab: 'owed', billStatus: 'open', owedF: 'all', campaign: 'all', raisePct: 8, raiseRound: '5', raiseOnlyLow: false, billQ: '', costMonth: 'all' }
+};
+const settings = () => Object.assign({ businessName: 'B&B CO.', tagline: 'Home & property services', phone: '', email: '', address: '', hst: '', taxRate: 0, terms: 'Payment due on receipt. E-transfer or cash accepted.', etransfer: '', services: DEFAULT_SERVICES.join(', ') }, S.settings);
+const services = () => settings().services.split(',').map(s => s.trim()).filter(Boolean);
+
+// ---------- persistence (one write at a time per document) ----------
+const queues = {};
+function save(path, data) {
+  if (!S.db) { toast('Your data store is not available in this view.', true); return; }
+  const q = queues[path] || (queues[path] = { busy: false, next: null });
+  q.next = data === null ? { del: true } : { data: clone(data) };
+  if (!q.busy) pump(path);
+}
+async function pump(path) {
+  const q = queues[path]; q.busy = true;
+  while (q.next) {
+    const job = q.next; q.next = null;
+    try { if (job.del) await S.db.doc(path).delete(); else await S.db.doc(path).set(job.data); }
+    catch (e) {
+      if (e && e.code === 'unavailable') { await new Promise(r => setTimeout(r, 600 + Math.random() * 600)); if (!q.next) q.next = job; continue; }
+      if (e && e.code === 'invalid_argument') { S.readOnly = true; toast('Changes are not saved: this view can read the data but not edit it.', true); }
+      else if (e && e.code === 'quota_exceeded') toast('Storage is full. Delete some old records to keep adding.', true);
+      else toast('Could not save that change. Check your connection and try again.', true);
+    }
+  }
+  q.busy = false;
+}
+function put(coll, id, data) { S[coll][id] = data; save(`${coll}/${id}`, data); }
+function del(coll, id) { delete S[coll][id]; save(`${coll}/${id}`, null); }
+
+// ---------- derived data ----------
+function revenueEntries() {
+  const out = [];
+  for (const [id, j] of Object.entries(S.jobs)) out.push({ key: 'job:' + id, date: j.date, amount: Number(j.amount) || 0, paid: !!j.paid, kind: j.kind || 'project', clientId: j.clientId || '', clientName: j.clientName || '', address: j.address || '', service: j.service || '', invoiceId: j.invoiceId || '', src: { t: 'job', id } });
+  for (const [w, doc] of Object.entries(S.weeks)) for (const [cid, e] of Object.entries(doc.entries || {})) out.push({ key: `mow:${w}:${cid}`, date: e.date || w, amount: Number(e.amount) || 0, paid: !!e.paid, kind: 'mow', clientId: cid, clientName: e.name || S.clients[cid]?.name || 'Client', address: e.address || S.clients[cid]?.address || '', service: e.front ? 'Lawn mowing (front only)' : 'Lawn mowing', front: !!e.front, invoiceId: e.invoiceId || '', src: { t: 'mow', w, cid } });
+  return out;
+}
+const isMowKind = k => k === 'mow' || k === 'mow-import' || k === 'sub';
+const yearOf = s => Number(String(s).slice(0, 4));
+const monthOf = s => Number(String(s).slice(5, 7)) - 1;
+function unpaidEntries() { return revenueEntries().filter(e => !e.paid && e.kind !== 'mow-import'); }
+function clientStats(cid, year) {
+  const c = S.clients[cid] || {};
+  const es = revenueEntries().filter(e => e.clientId === cid);
+  const inYear = es.filter(e => !year || yearOf(e.date) === year);
+  let rev = inYear.reduce((a, e) => a + e.amount, 0);
+  let mows = inYear.filter(e => e.kind === 'mow').length;
+  if (!year || year === 2026) { rev += Number(c.importedMowRevenue) || 0; mows += Number(c.importedMows) || 0; }
+  const unpaid = es.filter(e => !e.paid).reduce((a, e) => a + e.amount, 0);
+  return { rev, mows, unpaid, entries: es };
+}
+function setEntryPaid(src, paid, invoiceId) {
+  if (src.t === 'job') { const j = clone(S.jobs[src.id]); if (!j) return; j.paid = paid; if (invoiceId !== undefined) j.invoiceId = invoiceId; put('jobs', src.id, j); }
+  else { const w = clone(S.weeks[src.w]); if (!w || !w.entries[src.cid]) return; w.entries[src.cid].paid = paid; if (invoiceId !== undefined) w.entries[src.cid].invoiceId = invoiceId; put('weeks', src.w, w); }
+}
+function docTotal(d) { const sub = (d.items || []).reduce((a, it) => a + (Number(it.qty) || 0) * (Number(it.rate) || 0), 0); const tax = sub * (Number(d.taxRate) || 0) / 100; return { sub: r2(sub), tax: r2(tax), total: r2(sub + tax) }; }
+function nextNumber(coll, prefix) { let max = 0; for (const d of Object.values(S[coll])) { const m = String(d.number || '').match(/(\d+)$/); if (m) max = Math.max(max, Number(m[1])); } return `${prefix}-${String(max + 1).padStart(4, '0')}`; }
+function years() { const ys = new Set([new Date().getFullYear()]); for (const e of revenueEntries()) if (e.date) ys.add(yearOf(e.date)); for (const e of Object.values(S.expenses)) if (e.date) ys.add(yearOf(e.date)); return [...ys].sort((a, b) => b - a); }
+function clientLabel(c) { return c.address && c.address !== c.name ? `${c.name} — ${c.address}` : c.name; }
+function findClientByLabel(v) { v = String(v || '').trim().toLowerCase(); if (!v) return null; for (const [id, c] of Object.entries(S.clients)) if (clientLabel(c).toLowerCase() === v || (c.name || '').toLowerCase() === v) return id; return null; }
+function sortedClients() { return Object.entries(S.clients).sort((a, b) => (a[1].name || '').localeCompare(b[1].name || '')); }
+
+// ---------- toast ----------
+let toastT;
+let toastUndo = null;
+function toast(msg, bad, undo) { const t = $('#toast'); t.innerHTML = `<span>${esc(msg)}</span>${undo ? '<button type="button" class="toast-undo" id="toastUndo">Undo</button>' : ''}`; toastUndo = undo || null; t.className = 'toast' + (bad ? ' bad' : ''); t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; toastUndo = null; }, bad ? 5000 : undo ? 5000 : 2400); }
+$('#toast').addEventListener('click', e => { if (e.target.id === 'toastUndo' && toastUndo) { const f = toastUndo; toastUndo = null; $('#toast').hidden = true; f(); } });
+
+// ---------- rendering scaffold ----------
+let renderQueued = false;
+function scheduleRender() { if (renderQueued) return; renderQueued = true; requestAnimationFrame(() => { renderQueued = false; renderBody(); }); }
+const READY_KEYS = ['clients', 'jobs', 'weeks', 'expenses', 'quotes', 'invoices', 'crew', 'shifts', 'weekplans', 'settings'];
+function ready() { return READY_KEYS.every(k => S.loaded.has(k)); }
+function go(view) {
+  if (dlg.open) closeDlg();
+  S.view = view;
+  document.querySelectorAll('[data-go]').forEach(b => { if (b.dataset.go === view) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+  try { localStorage.setItem('bnb.view2', view); } catch (e) {}
+  renderShell(); renderBody(); window.scrollTo({ top: 0 });
+}
+function renderShell() {
+  if (!ready()) return;
+  $('#boot').hidden = true; $('#vshell').hidden = false; $('#vbody').hidden = false;
+  $('#vshell').innerHTML = (VIEWS[S.view].shell || (() => ''))();
+}
+function renderBody() {
+  if (!ready()) return;
+  if ($('#vshell').hidden) renderShell();
+  const v = VIEWS[S.view];
+  if (v.refreshShell) v.refreshShell();
+  const ae = document.activeElement; const keep = ae && ae.id && $('#vbody').contains(ae) ? ae.id : null; const sel = keep && ae.selectionStart != null ? [ae.selectionStart, ae.selectionEnd] : null;
+  $('#vbody').innerHTML = v.body();
+  if (keep) { const el = document.getElementById(keep); if (el) { el.focus(); try { if (sel) el.setSelectionRange(sel[0], sel[1]); } catch (e) {} } }
+}
+
+// ---------- OVERVIEW ----------
+const VIEWS = {};
+VIEWS.home = {
+  shell: () => `<div class="vhead"><h2>Overview</h2><div class="toolbar"><label class="label" for="yearSel">Season</label><select class="inp" id="yearSel" data-f="year">${years().map(y => `<option ${y === S.year ? 'selected' : ''}>${y}</option>`).join('')}</select></div></div>`,
+  body() {
+    const Y = S.year, now = new Date(), curY = now.getFullYear(), curM = now.getMonth();
+    const rev = revenueEntries().filter(e => yearOf(e.date) === Y);
+    const exp = Object.values(S.expenses).filter(e => yearOf(e.date) === Y);
+    const revT = rev.reduce((a, e) => a + e.amount, 0), expT = exp.reduce((a, e) => a + (Number(e.amount) || 0), 0);
+    const profit = revT - expT, margin = revT ? profit / revT : 0;
+    const byM = Array.from({ length: 12 }, () => ({ mow: 0, proj: 0, exp: 0 }));
+    rev.forEach(e => { byM[monthOf(e.date)][isMowKind(e.kind) ? 'mow' : 'proj'] += e.amount; });
+    exp.forEach(e => { byM[monthOf(e.date)].exp += Number(e.amount) || 0; });
+    const isCur = Y === curY;
+    const mIdx = isCur ? curM : 11;
+    const thisM = byM[mIdx].mow + byM[mIdx].proj, lastM = mIdx > 0 ? byM[mIdx - 1].mow + byM[mIdx - 1].proj : 0;
+    const unpaid = unpaidEntries(); const unpaidT = unpaid.reduce((a, e) => a + e.amount, 0);
+    const openQ = Object.values(S.quotes).filter(q => q.status === 'sent'); const openQT = openQ.reduce((a, q) => a + docTotal(q).total, 0);
+    const wk = weekSummary(mondayOf(today()));
+    const delta = lastM ? (thisM - lastM) / lastM : null;
+
+    const kpis = `<div class="kpis">
+      <div class="kpi hero"><span class="label">Revenue ${Y}</span><span class="v">${money0(revT)}</span><span class="s">${money0(byM.reduce((a, m) => a + m.mow, 0))} mowing · ${money0(byM.reduce((a, m) => a + m.proj, 0))} projects</span>${settings().goalYear ? `<span class="s">${Math.round(revT / settings().goalYear * 100)}% of ${money0(settings().goalYear)} goal</span><div class="goal"><div style="width:${Math.min(100, revT / settings().goalYear * 100).toFixed(1)}%"></div></div>` : ''}</div>
+      <div class="kpi"><span class="label">Profit</span><span class="v">${money0(profit)}</span><span class="s">${Math.round(margin * 100)}% margin after ${money0(expT)} expenses</span></div>
+      <div class="kpi"><span class="label">${MONTHS_L[mIdx]}</span><span class="v">${money0(thisM)}</span><span class="s">${delta === null ? 'No revenue the month before' : `<b class="${delta >= 0 ? 'up' : 'down'}">${delta >= 0 ? '▲' : '▼'} ${Math.abs(Math.round(delta * 100))}%</b> vs ${MONTHS_L[mIdx - 1]}`}</span>${settings().goalMonth ? `<span class="s">${Math.round(thisM / settings().goalMonth * 100)}% of ${money0(settings().goalMonth)} goal</span><div class="goal"><div style="width:${Math.min(100, thisM / settings().goalMonth * 100).toFixed(1)}%"></div></div>` : ''}</div>
+      <div class="kpi"><span class="label">Unpaid</span><span class="v ${unpaidT > 0 ? '' : ''}">${money0(unpaidT)}</span><span class="s">${unpaid.length} job${unpaid.length === 1 ? '' : 's'} waiting on payment</span></div>
+      <div class="kpi"><span class="label">This week's lawns</span><span class="v">${wk.done}/${wk.due}</span><span class="s">${money0(wk.earned)} earned so far</span></div>
+      <div class="kpi"><span class="label">Open quotes</span><span class="v">${money0(openQT)}</span><span class="s">${openQ.length} sent, waiting for a reply</span></div>
+    </div>`;
+
+    // top clients
+    const per = {};
+    for (const e of rev) if (e.clientId) per[e.clientId] = (per[e.clientId] || 0) + e.amount;
+    if (Y === 2026) for (const [id, c] of Object.entries(S.clients)) if (c.importedMowRevenue) per[id] = (per[id] || 0) + Number(c.importedMowRevenue);
+    const top = Object.entries(per).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    const topMax = top[0]?.[1] || 1;
+    const topHtml = top.length ? `<div class="bars">${top.map(([id, v]) => `<div class="bar-row click" data-act="openClient" data-id="${id}" style="cursor:pointer"><span>${esc(S.clients[id]?.name || 'Client')} <span class="muted small">${esc(S.clients[id]?.address && S.clients[id].address !== S.clients[id].name ? S.clients[id].address : '')}</span></span><b class="num">${money0(v)}</b><div class="track"><div class="fill" style="width:${(v / topMax * 100).toFixed(1)}%"></div></div></div>`).join('')}</div>` : `<div class="empty">Revenue by client shows up once you log jobs.</div>`;
+
+    // by service
+    const svc = {};
+    for (const e of rev) { const k = isMowKind(e.kind) ? 'Lawn mowing' : normSvc(e.service); svc[k] = (svc[k] || 0) + e.amount; }
+    const svcArr = Object.entries(svc).sort((a, b) => b[1] - a[1]).slice(0, 8); const svcMax = svcArr[0]?.[1] || 1;
+    const svcHtml = svcArr.length ? `<div class="bars">${svcArr.map(([k, v]) => `<div class="bar-row"><span>${esc(k)}</span><b class="num">${money0(v)} <span class="muted small">${Math.round(v / (revT || 1) * 100)}%</span></b><div class="track"><div class="fill" style="width:${(v / svcMax * 100).toFixed(1)}%"></div></div></div>`).join('')}</div>` : `<div class="empty">No revenue logged for ${Y} yet.</div>`;
+
+    // recent
+    const recent = revenueEntries().filter(e => e.kind !== 'mow-import').sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 8);
+    const recentHtml = recent.length ? `<div class="tbl-wrap"><table><tbody>${recent.map(e => `<tr><td class="muted num" style="white-space:nowrap">${fmtDate(e.date)}</td><td>${esc(e.clientName)}<div class="muted small">${esc(e.service)}</div></td><td class="r num">${money(e.amount)}<div>${e.paid ? '<span class="pill green">Paid</span>' : '<span class="pill warn">Unpaid</span>'}</div></td></tr>`).join('')}</tbody></table></div>` : `<div class="empty">Tick lawns on <b>This week</b> or log a job to see activity here.</div>`;
+
+    // expenses by category
+    const cat = {}; exp.forEach(e => cat[e.category || 'Other'] = (cat[e.category || 'Other'] || 0) + (Number(e.amount) || 0));
+    const catArr = Object.entries(cat).sort((a, b) => b[1] - a[1]); const catMax = catArr[0]?.[1] || 1;
+    const catHtml = catArr.length ? `<div class="bars">${catArr.map(([k, v]) => `<div class="bar-row"><span>${esc(k)}</span><b class="num">${money0(v)}</b><div class="track"><div class="fill" style="width:${(v / catMax * 100).toFixed(1)}%;background:var(--c-exp)"></div></div></div>`).join('')}</div>` : `<div class="empty">No expenses logged for ${Y}.</div>`;
+
+    return `${kpis}
+      <section class="panel chart"><h3>Revenue by month <span class="muted">${Y}</span></h3><div id="chart">${chartSvg(byM)}</div>
+      <div class="legend"><span><i style="background:var(--c-mow)"></i>Mowing</span><span><i style="background:var(--c-proj)"></i>Projects &amp; services</span><span><i style="background:var(--c-exp);height:3px;vertical-align:3px"></i>Expenses</span></div></section>
+      <div class="grid2">
+        <section class="panel"><h3>Top clients <span class="muted">${Y} revenue</span></h3>${topHtml}</section>
+        <section class="panel"><h3>Revenue by service</h3>${svcHtml}</section>
+        <section class="panel"><h3>Recent activity</h3>${recentHtml}</section>
+        <section class="panel"><h3>Expenses by category <span class="muted">${money0(expT)}</span></h3>${catHtml}</section>
+      </div>`;
+  }
+};
+function normSvc(s) {
+  s = String(s || 'Other').trim(); const l = s.toLowerCase();
+  if (/aerat|overseed/.test(l) && /clean/.test(l)) return 'Cleanup + aeration';
+  if (/aerat|overseed/.test(l)) return 'Aeration + overseeding';
+  if (/clean/.test(l)) return 'Cleanups';
+  if (/mulch/.test(l)) return 'Mulching';
+  if (/hedge|bush|shrub|trim/.test(l)) return 'Hedges & bushes';
+  if (/wash/.test(l)) return 'Pressure washing';
+  if (/gutter/.test(l)) return 'Gutter cleaning';
+  if (/stain|deck|fence|pergola|paint/.test(l)) return 'Deck, fence & pergola';
+  if (/tree/.test(l)) return 'Tree work';
+  if (/snow/.test(l)) return 'Snow removal';
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+function niceStep(max) { const raw = max / 4; const p = Math.pow(10, Math.floor(Math.log10(raw || 1))); const n = raw / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p; }
+function chartSvg(byM) {
+  const W = Math.max(320, Math.round(($('#vbody')?.clientWidth || 900) - 34)), H = 250, L = 52, R = 8, T = 12, B = 28;
+  const tot = byM.map(m => m.mow + m.proj); const max = Math.max(1, ...tot, ...byM.map(m => m.exp));
+  const step = niceStep(max); const top = Math.ceil(max / step) * step;
+  const y = v => T + (H - T - B) * (1 - v / top); const cw = (W - L - R) / 12; const bw = Math.min(42, cw * .62);
+  let g = '';
+  for (let v = 0; v <= top + 1e-6; v += step) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)">${v >= 1000 ? '$' + (v / 1000) + 'k' : '$' + v}</text>`;
+  byM.forEach((m, i) => {
+    const x = L + cw * i + (cw - bw) / 2;
+    const hm = y(0) - y(m.mow), hp = y(0) - y(m.proj);
+    const tip = `${MONTHS_L[i]}: ${money0(m.mow + m.proj)} revenue (${money0(m.mow)} mowing, ${money0(m.proj)} projects), ${money0(m.exp)} expenses`;
+    g += `<g><title>${tip}</title>`;
+    if (m.mow) g += `<rect x="${x}" y="${y(m.mow)}" width="${bw}" height="${hm}" fill="var(--c-mow)"/>`;
+    if (m.proj) g += `<rect x="${x}" y="${y(m.mow + m.proj)}" width="${bw}" height="${hp}" rx="3" fill="var(--c-proj)"/>`;
+    if (m.exp) g += `<line x1="${x - 4}" x2="${x + bw + 4}" y1="${y(m.exp)}" y2="${y(m.exp)}" stroke="var(--c-exp)" stroke-width="3" stroke-linecap="round"/>`;
+    g += `<rect x="${L + cw * i}" y="${T}" width="${cw}" height="${H - T - B}" fill="transparent"/></g>`;
+    g += `<text x="${L + cw * i + cw / 2}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--muted)">${MONTHS[i]}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly revenue and expenses">${g}<line x1="${L}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}" stroke="var(--muted)" stroke-width="1"/></svg>`;
+}
+
+// ---------- THIS WEEK ----------
+function weekSummary(ws) {
+  const doc = S.weeks[ws] || { entries: {} }; const prev = S.weeks[addDays(ws, -7)] || { entries: {} };
+  const due = [], notDue = [], onCall = [], monthly = [];
+  const carry = new Set(doc.carry || []), moved = new Set(doc.moved || []);
+  const ordered = sortedClients().sort((a, b) => (a[1].route ?? 1e6) - (b[1].route ?? 1e6) || (a[1].name || '').localeCompare(b[1].name || ''));
+  for (const [id, c] of ordered) {
+    if (c.active === false) continue;
+    if (moved.has(id) && !doc.entries?.[id]) { notDue.push(id); continue; }
+    if (carry.has(id) && c.frequency !== 'weekly') { due.push(id); continue; }
+    if (c.frequency === 'weekly') due.push(id);
+    else if (c.frequency === 'biweekly') { const isDue = c.bwGroup ? c.bwGroup === weekGroup(ws) : !(prev.entries?.[id] && !doc.entries?.[id]); (isDue ? due : notDue).push(id); }
+    else if (c.frequency === 'oncall') onCall.push(id);
+    else if (c.frequency === 'monthly') monthly.push(id);
+  }
+  const extra = [...notDue, ...onCall].filter(id => doc.entries?.[id]).length;
+  const earned = Object.values(doc.entries || {}).reduce((a, e) => a + (Number(e.amount) || 0), 0);
+  const potential = due.reduce((a, id) => a + (Number(S.clients[id].mowPrice) || 0), 0);
+  return { doc, carry, moved, dueList: due, notDue, onCall, monthly, done: due.filter(id => doc.entries?.[id]).length + extra, due: due.length + extra, earned, potential };
+}
+VIEWS.week = {
+  shell: () => `<div class="vhead"><h2>Lawns this week</h2><div class="toolbar"><button class="btn primary" data-act="planWeekCur">Plan days</button><button class="btn" data-act="routeOrder">Route order</button><button class="btn" data-act="bwGroups">Bi-weekly groups</button><button class="btn" data-act="wkPrev" aria-label="Previous week">← Prev</button><button class="btn" data-act="wkToday">Today</button><button class="btn" data-act="wkNext" aria-label="Next week">Next →</button></div></div>`,
+  body() {
+    const ws = S.weekStart, we = addDays(ws, 6), sm = weekSummary(ws), doc = sm.doc;
+    const pct = sm.due ? Math.round(sm.done / sm.due * 100) : 0;
+    const row = (id, note) => { const c = S.clients[id]; const e = doc.entries?.[id]; const done = !!e;
+      return `<div class="lawn ${done ? 'done' : ''}" role="checkbox" aria-checked="${done}" tabindex="0" data-act="toggleMow" data-id="${id}">
+        <span class="box">${ICON_CHECK}</span>
+        <span class="who"><b>${esc(c.name)}</b><span>${esc(c.address && c.address !== c.name ? c.address : '')}${note ? ` · ${note}` : ''}</span></span>
+        <span class="end">${done && (Number(c.frontPrice) > 0 || e.front) ? `<button class="pill ${e.front ? 'green' : ''}" data-act="toggleFront" data-id="${id}" title="Switch between full cut and front only">${e.front ? 'Front only' : 'Full cut'}</button>` : ''}${done ? `<button class="pill ${e.paid ? 'green' : 'warn'}" data-act="toggleMowPaid" data-id="${id}" title="Tap to switch paid / unpaid">${e.paid ? 'Paid' : 'Unpaid'}</button>` : `<span class="pill">${FREQ[c.frequency] || ''}</span>`}<span class="price">${money0(done ? e.amount : c.mowPrice)}</span></span></div>`; };
+    const ym = ws.slice(0, 7);
+    const subRow = id => { const c = S.clients[id]; const jid = `sub_${id}_${ym}`; const j = S.jobs[jid];
+      return `<div class="lawn ${j ? 'done' : ''}" role="checkbox" aria-checked="${!!j}" tabindex="0" data-act="toggleSub" data-id="${id}">
+        <span class="box">${ICON_CHECK}</span><span class="who"><b>${esc(c.name)}</b><span>${esc(c.address && c.address !== c.name ? c.address : '')} · charge for ${MONTHS_L[monthOf(ws)]}</span></span>
+        <span class="end">${j ? `<button class="pill ${j.paid ? 'green' : 'warn'}" data-act="toggleSubPaid" data-id="${id}">${j.paid ? 'Paid' : 'Unpaid'}</button>` : '<span class="pill">Monthly plan</span>'}<span class="price">${money0(j ? j.amount : c.mowPrice)}</span></span></div>`; };
+    const dueList = sm.dueList;
+    const remaining = dueList.filter(id => !doc.entries?.[id]).length;
+    const others = [...sm.notDue.map(id => [id, sm.moved.has(id) ? 'moved to next week' : S.clients[id].bwGroup ? `week ${S.clients[id].bwGroup}` : 'mowed last week']), ...sm.onCall.map(id => [id, 'on call'])];
+    return `<section class="panel"><div class="wk-head"><span class="wk-range">${fmtDate(ws)} – ${fmtDate(we)}</span><span class="pill" title="Bi-weekly clients in group ${weekGroup(ws)} are due">Week ${weekGroup(ws)}</span>${ws === mondayOf(today()) ? '<span class="pill green">Current week</span>' : ''}<span class="muted" style="margin-left:auto"><b class="num" style="color:var(--ink)">${money(sm.earned)}</b> earned of ${money0(sm.potential)} scheduled${Number(S.settings.weeklyGoal) ? ` · goal ${money0(S.settings.weeklyGoal)} (${Math.round(weekMoney(ws) / S.settings.weeklyGoal * 100)}%)` : ''}</span></div>
+      <div style="display:grid;gap:6px;margin-top:12px"><div class="progress"><div style="width:${pct}%"></div></div><div class="small muted">${sm.done} of ${sm.due} lawns done${remaining ? ` · ${remaining} to go` : sm.due ? ' · all done' : ''}</div></div></section>
+      <section class="panel"><h3>Due this week <span class="muted">${dueList.length} lawns</span>${remaining && !S.readOnly ? `<span class="toolbar" style="margin-left:12px"><button class="btn sm" data-act="tickAll">Mark all ${remaining} done</button><button class="btn sm" data-act="rainDay" title="Move the lawns you haven't done to next week">Rain day: move ${remaining} to next week</button></span>` : ''}</h3>
+        ${dueList.length ? `<div class="lawns">${dueList.map(id => { const c = S.clients[id]; const pd = weekPlan(ws).days?.[id]; return row(id, [pd != null ? DOW.at(Number(pd)) : '', sm.carry.has(id) && c.frequency !== 'weekly' ? 'carried over' : '', c.frequency === 'biweekly' ? `bi-weekly${c.bwGroup ? ' ' + c.bwGroup : ''}` : '', payType(c) === 'monthend' ? 'pays month-end' : ''].filter(Boolean).join(' · ')); }).join('')}</div>` : `<div class="empty">No weekly or bi-weekly clients yet. Set a client's mowing plan on the <b>Clients</b> page.</div>`}
+        ${others.length ? `<details class="more" ${others.some(([id]) => doc.entries?.[id]) ? 'open' : ''}><summary>Not due or on call (${others.length})</summary><div class="lawns">${others.map(([id, n]) => row(id, n)).join('')}</div></details>` : ''}
+      </section>
+      ${sm.monthly.length ? `<section class="panel"><h3>Monthly plans <span class="muted">charged once a month</span></h3><div class="lawns">${sm.monthly.map(subRow).join('')}</div></section>` : ''}
+      ${sm.dueList.some(id => S.clients[id].frequency === 'biweekly' && !S.clients[id].bwGroup) ? `<p class="small muted">Some bi-weekly clients have no group yet, so they show up based on whether you mowed them last week. <button class="btn sm" data-act="bwGroups">Set groups</button></p>` : ''}
+      <p class="small muted">Ticking a lawn logs a mow at that client's price, dated ${ws === mondayOf(today()) ? 'today' : 'the Monday of that week'}. Revenue, monthly totals and the Overview update on their own. Change a price on the client's card.</p>`;
+  }
+};
+function toggleMow(cid, wsArg, silent) {
+  const ws = wsArg || S.weekStart; const doc = clone(S.weeks[ws]) || { entries: {} }; doc.entries = doc.entries || {};
+  if (doc.entries[cid]) { if (doc.entries[cid].invoiceId) { toast('That mow is on an invoice. Remove it from the invoice first.', true); return; } delete doc.entries[cid]; }
+  else { const c = S.clients[cid]; const t = today(); doc.entries[cid] = { amount: Number(c.mowPrice) || 0, paid: false, date: (t >= ws && t <= addDays(ws, 6)) ? t : ws, name: c.name, address: c.address || '' }; }
+  const added = !!doc.entries[cid];
+  if (!weekEmpty(doc)) put('weeks', ws, doc); else del('weeks', ws);
+  renderBody();
+  if (!silent) toast(`${S.clients[cid]?.name || 'Lawn'} ${added ? 'marked done' : 'unticked'}`, false, () => toggleMow(cid, ws, true));
+}
+
+// ---------- JOBS ----------
+VIEWS.jobs = {
+  shell() {
+    const ms = new Set(revenueEntries().map(e => (e.date || '').slice(0, 7)).filter(Boolean));
+    return `<div class="vhead"><h2>Jobs &amp; revenue</h2><button class="btn primary" data-act="newJob">+ Log a job</button></div>
+    <div class="toolbar"><input class="inp search" type="search" id="jobsQ" placeholder="Search client, address or service" data-f="jobsQ" value="${esc(S.f.jobsQ)}">
+      <select class="inp" id="jobsMonth" data-f="jobsMonth"><option value="all">All months</option>${[...ms].sort().reverse().map(m => `<option value="${m}" ${S.f.jobsMonth === m ? 'selected' : ''}>${MONTHS_L[monthOf(m + '-01')]} ${m.slice(0, 4)}</option>`).join('')}</select>
+      <div class="seg" role="group" aria-label="Type">${[['all', 'All'], ['mow', 'Mowing'], ['project', 'Projects']].map(([v, l]) => `<button data-seg="jobsType" data-v="${v}" aria-pressed="${S.f.jobsType === v}">${l}</button>`).join('')}</div>
+      <div class="seg" role="group" aria-label="Payment">${[['all', 'Any'], ['unpaid', 'Unpaid'], ['paid', 'Paid']].map(([v, l]) => `<button data-seg="jobsPaid" data-v="${v}" aria-pressed="${S.f.jobsPaid === v}">${l}</button>`).join('')}</div></div>`;
+  },
+  body() {
+    const q = S.f.jobsQ.toLowerCase();
+    let es = revenueEntries().filter(e => {
+      if (S.f.jobsMonth !== 'all' && !(e.date || '').startsWith(S.f.jobsMonth)) return false;
+      if (S.f.jobsType === 'mow' && !isMowKind(e.kind)) return false;
+      if (S.f.jobsType === 'project' && isMowKind(e.kind)) return false;
+      if (S.f.jobsPaid === 'unpaid' && e.paid) return false;
+      if (S.f.jobsPaid === 'paid' && !e.paid) return false;
+      if (q && !`${e.clientName} ${e.address} ${e.service}`.toLowerCase().includes(q)) return false;
+      return true;
+    }).sort((a, b) => (b.date || '').localeCompare(a.date || '') || a.clientName.localeCompare(b.clientName));
+    if (!es.length) return `<section class="panel"><div class="empty">No jobs match these filters.</div></section>`;
+    const total = es.reduce((a, e) => a + e.amount, 0);
+    let html = '', cur = '';
+    const groups = {}; es.forEach(e => { const k = (e.date || '').slice(0, 7); (groups[k] = groups[k] || []).push(e); });
+    for (const e of es.slice(0, 600)) {
+      const k = (e.date || '').slice(0, 7);
+      if (k !== cur) { cur = k; const g = groups[k]; html += `<tr class="month-row"><td colspan="3">${MONTHS_L[monthOf(k + '-01')]} ${k.slice(0, 4)} <span class="muted">· ${g.length} entries</span></td><td class="r num">${money(g.reduce((a, x) => a + x.amount, 0))}</td><td class="hide-sm"></td></tr>`; }
+      const tag = e.kind === 'mow' ? '<span class="pill green">Mow</span>' : e.kind === 'sub' ? '<span class="pill green">Plan</span>' : e.kind === 'mow-import' ? '<span class="pill">Imported</span>' : '';
+      html += `<tr class="click" data-act="openEntry" data-key="${esc(e.key)}"><td class="muted num" style="white-space:nowrap">${fmtDate(e.date)}</td><td>${esc(e.clientName)}<div class="muted small">${esc(e.address && e.address !== e.clientName ? e.address : '')}</div></td><td>${esc(e.service)} ${tag}</td><td class="r num">${money(e.amount)}</td><td class="hide-sm">${e.kind === 'mow-import' ? '' : `<button class="pill ${e.paid ? 'green' : 'warn'}" data-act="togglePaid" data-key="${esc(e.key)}">${e.paid ? 'Paid' : 'Unpaid'}</button>`}</td></tr>`;
+    }
+    return `<section class="panel"><h3>${es.length} entries <span class="muted">${money(total)} total</span></h3><div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Client</th><th>Service</th><th class="r">Amount</th><th class="hide-sm">Status</th></tr></thead><tbody>${html}</tbody></table></div>${es.length > 600 ? '<p class="small muted">Showing the latest 600. Narrow by month to see the rest.</p>' : ''}</section>`;
+  }
+};
+function entryByKey(key) { return revenueEntries().find(e => e.key === key); }
+
+// ---------- CLIENTS ----------
+VIEWS.clients = {
+  shell: () => `<div class="vhead"><h2>Clients</h2><button class="btn primary" data-act="newClient">+ Add client</button></div>
+    <div class="toolbar"><input class="inp search" type="search" id="clientsQ" placeholder="Search name, address or phone" data-f="clientsQ" value="${esc(S.f.clientsQ)}">
+    <div class="seg" role="group" aria-label="Filter">${[['active', 'Active'], ['weekly', 'Weekly'], ['biweekly', 'Bi-weekly'], ['monthly', 'Monthly'], ['oncall', 'On call'], ['none', 'Projects only'], ['unpaid', 'Owes money'], ['inactive', 'Inactive']].map(([v, l]) => `<button data-seg="clientsF" data-v="${v}" aria-pressed="${S.f.clientsF === v}">${l}</button>`).join('')}</div></div>`,
+  body() {
+    const q = S.f.clientsQ.toLowerCase(), F = S.f.clientsF;
+    const rows = sortedClients().map(([id, c]) => [id, c, clientStats(id, S.year)]).filter(([id, c, st]) => {
+      if (F === 'inactive') { if (c.active !== false) return false; } else if (c.active === false) return false;
+      if (['weekly', 'biweekly', 'monthly', 'oncall', 'none'].includes(F) && c.frequency !== F) return false;
+      if (F === 'unpaid' && st.unpaid <= 0) return false;
+      if (q && !`${c.name} ${c.address} ${c.phone} ${c.email}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+    if (!rows.length) return `<section class="panel"><div class="empty">No clients match. Try another filter or add a client.</div></section>`;
+    const mowing = rows.filter(r => ['weekly', 'biweekly'].includes(r[1].frequency));
+    const weeklyValue = mowing.reduce((a, [, c]) => a + (c.frequency === 'weekly' ? 1 : .5) * (Number(c.mowPrice) || 0), 0);
+    return `<section class="panel"><h3>${rows.length} clients <span class="muted">${mowing.length ? `mowing route ≈ ${money0(weeklyValue)}/week` : ''}</span></h3><div class="tbl-wrap"><table><thead><tr><th>Client</th><th>Plan</th><th class="r">Price</th><th class="r hide-sm">${S.year} revenue</th><th class="r">Owes</th></tr></thead><tbody>
+      ${rows.map(([id, c, st]) => `<tr class="click" data-act="openClient" data-id="${id}"><td><b>${esc(c.name)}</b><div class="muted small">${esc(c.address && c.address !== c.name ? c.address : '')}${c.phone ? ' · ' + esc(c.phone) : ''}</div></td><td><span class="pill ${['weekly', 'biweekly', 'monthly'].includes(c.frequency) ? 'green' : ''}">${FREQ[c.frequency] || '—'}${c.frequency === 'biweekly' && c.bwGroup ? ' ' + c.bwGroup : ''}</span>${['weekly', 'biweekly', 'oncall'].includes(c.frequency) ? `<div class="muted small">${PAY[payType(c)]}</div>` : ''}</td><td class="r num">${c.mowPrice ? money0(c.mowPrice) : '—'}</td><td class="r num hide-sm">${money0(st.rev)}</td><td class="r num">${st.unpaid > 0 ? `<span class="pill warn">${money0(st.unpaid)}</span>` : '<span class="muted">—</span>'}</td></tr>`).join('')}
+      </tbody></table></div></section>`;
+  }
+};
+
+// ---------- BILLING ----------
+VIEWS.billing = {
+  shell: () => `<div class="vhead"><h2>Quotes &amp; invoices</h2><div class="toolbar"><button class="btn primary" data-act="calc">Quote calculator</button><button class="btn" data-act="billingRun">Month-end billing</button><button class="btn" data-act="newCampaign">New outreach campaign</button><button class="btn" data-act="newQuote">+ Quote</button><button class="btn primary" data-act="newInvoice">+ Invoice</button></div></div>
+    <div class="toolbar"><div class="seg" role="group" aria-label="View">${[['owed', 'Who owes you'], ['invoices', 'Invoices'], ['quotes', 'Quotes']].map(([v, l]) => `<button data-seg="billTab" data-v="${v}" aria-pressed="${S.f.billTab === v}">${l}</button>`).join('')}</div>
+    ${S.f.billTab === 'owed' ? `<div class="seg" role="group" aria-label="Payment type">${[['all', 'Everyone'], ...Object.entries(PAY)].map(([v, l]) => `<button data-seg="owedF" data-v="${v}" aria-pressed="${S.f.owedF === v}">${l}</button>`).join('')}</div>` : `<div class="seg" role="group" aria-label="Status">${(S.f.billTab === 'invoices' ? [['open', 'Unpaid'], ['paid', 'Paid'], ['all', 'All']] : [['open', 'Open'], ['accepted', 'Accepted'], ['declined', 'Declined'], ['expired', 'No reply'], ['all', 'All']]).map(([v, l]) => `<button data-seg="billStatus" data-v="${v}" aria-pressed="${S.f.billStatus === v}">${l}</button>`).join('')}</div>`}
+    ${S.f.billTab === 'quotes' ? `<select class="inp" id="campaignSel" data-f="campaign"><option value="all">All campaigns</option>${campaigns().map(c => `<option ${S.f.campaign === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select>` : ''}
+    <input class="inp search" type="search" id="billQ" placeholder="Search client or number" data-f="billQ" value="${esc(S.f.billQ)}"></div>`,
+  body() {
+    if (S.f.billTab === 'owed') return owedBody();
+    const isInv = S.f.billTab === 'invoices', coll = isInv ? 'invoices' : 'quotes', st = S.f.billStatus, q = S.f.billQ.toLowerCase();
+    const list = Object.entries(S[coll]).filter(([, d]) => {
+      if (isInv) { if (st === 'open' && d.status === 'paid') return false; if (st === 'paid' && d.status !== 'paid') return false; }
+      else { if (st === 'open' && !['draft', 'sent'].includes(d.status)) return false; if (['accepted', 'declined', 'expired'].includes(st) && d.status !== st) return false; }
+      if (q && !`${d.number} ${d.clientName} ${d.address}`.toLowerCase().includes(q)) return false;
+      if (!isInv && S.f.campaign !== 'all' && d.campaign !== S.f.campaign) return false;
+      return true;
+    }).sort((a, b) => (b[1].date || '').localeCompare(a[1].date || '') || (b[1].number || '').localeCompare(a[1].number || ''));
+    const sum = list.reduce((a, [, d]) => a + docTotal(d).total, 0);
+    const camp = !isInv && S.f.campaign !== 'all' ? campaignSummary(S.f.campaign) : '';
+    if (!list.length) return camp + `<section class="panel"><div class="empty">${isInv ? (st === 'open' ? 'No unpaid invoices. Create one from a client card to bill their unpaid jobs in one go.' : 'No invoices here yet.') : 'No quotes match.'}</div></section>`;
+    const qa = (id, d) => isInv ? '' : `<td class="r" style="white-space:nowrap">${d.status === 'draft' ? `<button class="btn sm primary" data-act="quickSend" data-id="${id}" title="Copy the message and mark as sent">Send</button>` : d.status === 'sent' ? `<button class="btn sm" data-act="qStatus" data-s="accepted" data-id="${id}">Yes</button> <button class="btn sm" data-act="qStatus" data-s="declined" data-id="${id}">No</button>` : d.status === 'accepted' ? `<button class="btn sm" data-act="quoteJob" data-id="${id}">Log job</button>` : ''}</td>`;
+    return camp + `<section class="panel"><h3>${list.length} ${isInv ? 'invoice' : 'quote'}${list.length === 1 ? '' : 's'} <span class="muted">${money(sum)}</span></h3><div class="tbl-wrap"><table><thead><tr><th>Number</th><th>Client</th><th class="hide-sm">Date</th><th class="r">Total</th><th>Status</th>${isInv ? '' : '<th></th>'}</tr></thead><tbody>
+      ${list.map(([id, d]) => `<tr class="click" data-act="${isInv ? 'openInvoice' : 'openQuote'}" data-id="${id}"><td class="num"><b>${esc(d.number)}</b></td><td>${esc(d.clientName)}<div class="muted small">${esc((d.items || [])[0]?.desc || '')}${(d.items || []).length > 1 ? ` + ${(d.items.length - 1)} more` : ''}</div></td><td class="muted hide-sm num">${fmtDate(d.date)}</td><td class="r num">${money(docTotal(d).total)}</td><td>${statusPill(coll, d)}</td>${qa(id, d)}</tr>`).join('')}
+      </tbody></table></div></section>`;
+  }
+};
+function owedGroups() {
+  const g = {};
+  for (const e of unpaidEntries()) { const k = e.clientId || 'name:' + e.clientName; (g[k] = g[k] || { cid: e.clientId, name: e.clientName, address: e.address, es: [] }).es.push(e); }
+  return Object.values(g).map(x => Object.assign(x, { total: x.es.reduce((a, e) => a + e.amount, 0), oldest: x.es.map(e => e.date).sort()[0], pay: payType(S.clients[x.cid] || {}), loose: x.es.filter(e => !e.invoiceId) }));
+}
+function owedBody() {
+  const q = S.f.billQ.toLowerCase();
+  const gs = owedGroups().filter(x => (S.f.owedF === 'all' || x.pay === S.f.owedF) && (!q || `${x.name} ${x.address}`.toLowerCase().includes(q))).sort((a, b) => b.total - a.total);
+  if (!gs.length) return `<section class="panel"><div class="empty">Nobody owes you money${S.f.owedF !== 'all' ? ' in this group' : ''}. Nice.</div></section>`;
+  const total = gs.reduce((a, x) => a + x.total, 0);
+  return `<section class="panel"><h3>${gs.length} client${gs.length === 1 ? '' : 's'} owe you <span class="muted">${money(total)}</span></h3><div class="tbl-wrap"><table><thead><tr><th>Client</th><th class="hide-sm">Pays</th><th class="r">Owed</th><th></th></tr></thead><tbody>
+    ${gs.map(x => { const days = Math.round((parse(today()) - parse(x.oldest)) / 864e5); const k = esc(x.cid || 'name:' + x.name);
+      return `<tr><td><b class="click" data-act="${x.cid ? 'openClient' : ''}" data-id="${esc(x.cid)}" style="cursor:pointer">${esc(x.name)}</b><div class="muted small">${x.es.length} unpaid · oldest ${fmtDate(x.oldest)}${days > 30 ? ` <span class="pill bad">${days} days</span>` : ''}${x.loose.length < x.es.length ? ' · on an invoice' : ''}</div></td>
+      <td class="hide-sm"><span class="pill">${PAY[x.pay]}</span></td><td class="r num"><b>${money(x.total)}</b></td>
+      <td class="r" style="white-space:nowrap">${x.cid && x.loose.length ? `<button class="btn sm" data-act="invoiceUnpaid" data-id="${esc(x.cid)}">Invoice</button> ` : ''}<button class="btn sm primary" data-act="markAllPaid" data-key="${k}">Got paid</button></td></tr>`; }).join('')}
+    </tbody></table></div><p class="small muted" style="margin:10px 0 0">“Got paid” marks every unpaid cut and job for that client as paid, and closes any invoice that covered them.</p></section>`;
+}
+function markClientPaid(key) {
+  const x = owedGroups().find(g => (g.cid || 'name:' + g.name) === key); if (!x) return;
+  const before = x.es.map(e => ({ src: e.src, paid: e.paid }));
+  // batch per document so each week doc gets one write
+  const weeks = {};
+  for (const e of x.es) { if (e.src.t === 'job') { const j = clone(S.jobs[e.src.id]); j.paid = true; put('jobs', e.src.id, j); } else { (weeks[e.src.w] = weeks[e.src.w] || clone(S.weeks[e.src.w])).entries[e.src.cid].paid = true; } }
+  for (const [w, d] of Object.entries(weeks)) put('weeks', w, d);
+  const invs = [...new Set(x.es.map(e => e.invoiceId).filter(Boolean))];
+  const prevInv = {};
+  for (const id of invs) { const inv = S.invoices[id]; if (inv && inv.status !== 'paid') { prevInv[id] = inv.status; put('invoices', id, Object.assign(clone(inv), { status: 'paid', paidOn: today() })); } }
+  renderBody();
+  toast(`${x.name}: ${money(x.total)} marked paid`, false, () => {
+    const wk = {};
+    for (const b of before) { if (b.src.t === 'job') { const j = clone(S.jobs[b.src.id]); if (j) { j.paid = false; put('jobs', b.src.id, j); } } else { const d = wk[b.src.w] || (wk[b.src.w] = clone(S.weeks[b.src.w])); if (d?.entries?.[b.src.cid]) d.entries[b.src.cid].paid = false; } }
+    for (const [w, d] of Object.entries(wk)) if (d) put('weeks', w, d);
+    for (const [id, st] of Object.entries(prevInv)) put('invoices', id, Object.assign(clone(S.invoices[id]), { status: st }));
+    renderBody();
+  });
+}
+function bwDialog() {
+  const thisG = weekGroup(mondayOf(today()));
+  const list = sortedClients().filter(([, c]) => c.active !== false && c.frequency === 'biweekly');
+  const sum = g => { const l = list.filter(([, c]) => (c.bwGroup || '') === g); return { n: l.length, v: l.reduce((a, [, c]) => a + (Number(c.mowPrice) || 0), 0) }; };
+  const A = sum('A'), B = sum('B'), U = sum('');
+  $('#dlgc').innerHTML = `${dlgHead('Bi-weekly groups')}<div class="dlg-b">
+    <p class="muted" style="margin:0">Put each bi-weekly client in Week A or Week B so both weeks carry a similar load. This week is <b>Week ${thisG}</b>.</p>
+    <div class="statgrid"><div class="stat"><span class="label">Week A${thisG === 'A' ? ' · this week' : ''}</span><b>${A.n} lawns · ${money0(A.v)}</b></div><div class="stat"><span class="label">Week B${thisG === 'B' ? ' · this week' : ''}</span><b>${B.n} lawns · ${money0(B.v)}</b></div>${U.n ? `<div class="stat"><span class="label">Not set</span><b>${U.n} lawns</b></div>` : ''}</div>
+    ${list.length ? `<div class="tbl-wrap"><table><tbody>${list.map(([id, c]) => `<tr><td><b>${esc(c.name)}</b><div class="muted small">${esc(c.address && c.address !== c.name ? c.address : '')}</div></td><td class="r num">${money0(c.mowPrice)}</td><td class="r"><div class="seg" role="group" aria-label="Group for ${esc(c.name)}">${['A', 'B'].map(g => `<button type="button" data-act="setBw" data-id="${id}" data-g="${g}" aria-pressed="${c.bwGroup === g}">Week ${g}</button>`).join('')}</div></td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">No active bi-weekly clients.</div>'}
+  </div><div class="dlg-f"><span class="sp"></span><button type="button" class="btn primary" data-act="closeDlg">Done</button></div>`;
+  if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } }
+}
+function statusPill(coll, d) {
+  if (coll === 'invoices') { if (d.status === 'paid') return '<span class="pill green">Paid</span>'; if (d.due && d.due < today()) return '<span class="pill bad">Overdue</span>'; return '<span class="pill warn">Unpaid</span>'; }
+  return { draft: '<span class="pill">Draft</span>', sent: '<span class="pill warn">Sent</span>', accepted: '<span class="pill green">Accepted</span>', declined: '<span class="pill bad">Declined</span>', expired: '<span class="pill">No reply</span>' }[d.status] || '<span class="pill">Draft</span>';
+}
+
+// ---------- EXPENSES ----------
+VIEWS.costs = {
+  shell() {
+    const ms = new Set(Object.values(S.expenses).map(e => (e.date || '').slice(0, 7)).filter(Boolean));
+    return `<div class="vhead"><h2>Expenses</h2><button class="btn primary" data-act="newExpense">+ Add expense</button></div>
+    <div class="toolbar"><select class="inp" id="costMonth" data-f="costMonth"><option value="all">All of ${S.year}</option>${[...ms].filter(m => yearOf(m) === S.year).sort().reverse().map(m => `<option value="${m}" ${S.f.costMonth === m ? 'selected' : ''}>${MONTHS_L[monthOf(m + '-01')]}</option>`).join('')}</select></div>`;
+  },
+  body() {
+    const list = Object.entries(S.expenses).filter(([, e]) => yearOf(e.date) === S.year && (S.f.costMonth === 'all' || (e.date || '').startsWith(S.f.costMonth))).sort((a, b) => (b[1].date || '').localeCompare(a[1].date || ''));
+    const total = list.reduce((a, [, e]) => a + (Number(e.amount) || 0), 0);
+    const rev = revenueEntries().filter(e => yearOf(e.date) === S.year && (S.f.costMonth === 'all' || (e.date || '').startsWith(S.f.costMonth))).reduce((a, e) => a + e.amount, 0);
+    const cat = {}; list.forEach(([, e]) => cat[e.category || 'Other'] = (cat[e.category || 'Other'] || 0) + (Number(e.amount) || 0));
+    const catArr = Object.entries(cat).sort((a, b) => b[1] - a[1]); const cmax = catArr[0]?.[1] || 1;
+    let html = '', cur = '';
+    for (const [id, e] of list) { const k = (e.date || '').slice(0, 7); if (k !== cur) { cur = k; const g = list.filter(([, x]) => (x.date || '').startsWith(k)); html += `<tr class="month-row"><td colspan="3">${MONTHS_L[monthOf(k + '-01')]}</td><td class="r num">${money(g.reduce((a, [, x]) => a + (Number(x.amount) || 0), 0))}</td></tr>`; }
+      html += `<tr class="click" data-act="openExpense" data-id="${id}"><td class="muted num">${fmtDate(e.date)}</td><td>${esc(e.category)}</td><td class="muted">${esc(e.description)}${e.receipt ? ' <span class="pill green">Receipt</span>' : ''}</td><td class="r num">${money(e.amount)}</td></tr>`; }
+    return `<div class="kpis"><div class="kpi"><span class="label">Spent</span><span class="v">${money0(total)}</span><span class="s">${list.length} entries</span></div><div class="kpi"><span class="label">Revenue</span><span class="v">${money0(rev)}</span><span class="s">same period</span></div><div class="kpi hero"><span class="label">Profit</span><span class="v">${money0(rev - total)}</span><span class="s">${rev ? Math.round((rev - total) / rev * 100) : 0}% margin</span></div></div>
+      <div class="grid2"><section class="panel"><h3>By category</h3>${catArr.length ? `<div class="bars">${catArr.map(([k, v]) => `<div class="bar-row"><span>${esc(k)}</span><b class="num">${money0(v)} <span class="muted small">${Math.round(v / (total || 1) * 100)}%</span></b><div class="track"><div class="fill" style="width:${(v / cmax * 100).toFixed(1)}%;background:var(--c-exp)"></div></div></div>`).join('')}</div>` : '<div class="empty">Nothing yet.</div>'}</section>
+      <section class="panel"><h3>All expenses</h3>${list.length ? `<div class="tbl-wrap"><table><tbody>${html}</tbody></table></div>` : '<div class="empty">No expenses for this period. Add gas, wages, gear and supplies to see your real profit.</div>'}</section></div>${taxPanel()}`;
+  }
+};
+
+// ---------- SETTINGS ----------
+VIEWS.settings = {
+  shell: () => { const s = settings(); return `<div class="vhead"><h2>Settings</h2></div>
+    <section class="panel"><h3>Business details on quotes &amp; invoices</h3><form id="setForm" class="fields">
+      <label class="field"><span>Business name</span><input class="inp" id="s_businessName" value="${esc(s.businessName)}"></label>
+      <label class="field"><span>Tagline</span><input class="inp" id="s_tagline" value="${esc(s.tagline)}"></label>
+      <label class="field"><span>Phone</span><input class="inp" id="s_phone" value="${esc(s.phone)}"></label>
+      <label class="field"><span>Email</span><input class="inp" id="s_email" type="email" value="${esc(s.email)}"></label>
+      <label class="field"><span>E-transfer email</span><input class="inp" id="s_etransfer" value="${esc(s.etransfer)}" placeholder="Where clients send payment"></label>
+      <label class="field"><span>Service area or address</span><input class="inp" id="s_address" value="${esc(s.address)}"></label>
+      <label class="field"><span>HST / GST number</span><input class="inp" id="s_hst" value="${esc(s.hst)}" placeholder="Leave blank if not registered"></label>
+      <label class="field"><span>Default tax rate %</span><input class="inp" id="s_taxRate" type="number" step="0.01" min="0" value="${esc(s.taxRate)}"></label>
+      <label class="field"><span>Revenue goal for the year ($)</span><input class="inp" id="s_goalYear" type="number" min="0" step="100" value="${esc(s.goalYear || '')}" placeholder="e.g. 75000"></label>
+      <label class="field"><span>Revenue goal per month ($)</span><input class="inp" id="s_goalMonth" type="number" min="0" step="100" value="${esc(s.goalMonth || '')}" placeholder="e.g. 10000"></label>
+      <label class="field wide"><span>Payment terms (printed on invoices)</span><textarea class="inp" id="s_terms" rows="2">${esc(s.terms)}</textarea></label>
+      <label class="field wide"><span>Services you offer (comma separated, used as suggestions)</span><textarea class="inp" id="s_services" rows="3">${esc(s.services)}</textarea></label>
+      <div class="field wide"><button class="btn primary" type="submit" style="justify-self:start">Save settings</button></div></form></section>
+    ${pinPanel()}
+    <section class="panel"><h3>Back up your data</h3><p class="muted small" style="margin:0 0 10px">Download spreadsheets of everything you've logged. Opens in Excel or Google Sheets.</p><div class="toolbar"><button class="btn" data-act="csvJobs">Jobs &amp; mows (.csv)</button><button class="btn" data-act="csvExpenses">Expenses (.csv)</button><button class="btn" data-act="csvClients">Clients (.csv)</button><button class="btn" data-act="jsonBackup">Full backup (.json)</button>${window.__signOut ? '<button class="btn" data-act="signOut">Sign out</button>' : ''}</div>
+      <div style="margin-top:12px"><span class="label">Restore from a full backup</span><div class="toolbar" style="margin-top:6px"><input class="inp" id="restoreFile" type="file" accept="application/json,.json" style="max-width:320px"><button class="btn" data-act="restoreBackup">Restore</button></div><p class="small muted" style="margin:6px 0 0">Adds or replaces records from the backup file. Nothing else is deleted.</p></div></section>`; },
+  body: () => ''
+};
+
+// ---------- dialogs ----------
+const dlg = $('#dlg');
+function openDlg(html, onBind) { $('#dlgc').innerHTML = html; if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } } onBind && onBind($('#dlgc')); const f = $('#dlgc').querySelector('input:not([type=checkbox]),select,textarea'); }
+function closeDlg() { if (dlg.open) dlg.close(); $('#dlgc').innerHTML = ''; }
+dlg.addEventListener('click', e => { if (e.target === dlg) closeDlg(); });
+const dlgHead = t => `<div class="dlg-h"><h3>${t}</h3><button class="btn ghost" data-act="closeDlg" aria-label="Close">✕</button></div>`;
+const clientDatalist = () => `<datalist id="clientList">${sortedClients().map(([, c]) => `<option value="${esc(clientLabel(c))}"></option>`).join('')}</datalist>`;
+const svcDatalist = () => `<datalist id="svcList">${services().map(s => `<option value="${esc(s)}"></option>`).join('')}</datalist>`;
+function confirmBar(msg, act, id) { return `<div class="confirm" id="confirmBar" hidden>${msg}<button type="button" class="btn sm danger" data-act="${act}" data-id="${esc(id)}">Yes, delete</button><button type="button" class="btn sm" data-act="cancelConfirm">Keep it</button></div>`; }
+function ensureClient(label, address) {
+  let cid = findClientByLabel(label);
+  if (!cid && label.trim()) { cid = uid('c'); put('clients', cid, { name: label.trim(), address: address || '', phone: '', email: '', source: '', frequency: 'none', mowPrice: 0, active: true, notes: '', createdAt: today() }); }
+  return cid;
+}
+
+// Job dialog
+function jobDialog(id, preset) {
+  const j = id ? S.jobs[id] : Object.assign({ date: today(), clientId: '', clientName: '', address: '', service: '', amount: '', paid: false, notes: '', kind: 'project' }, preset || {});
+  const c = S.clients[j.clientId];
+  openDlg(`${dlgHead(id ? 'Edit job' : 'Log a job')}<form id="jobForm" class="dlg" style="max-height:none"><div class="dlg-b"><div class="fields">
+    <label class="field wide"><span>Client</span><input class="inp" id="j_client" list="clientList" required value="${esc(c ? clientLabel(c) : j.clientName)}" placeholder="Start typing a name or address">${clientDatalist()}</label>
+    <label class="field"><span>Service</span><input class="inp" id="j_service" list="svcList" required value="${esc(j.service)}">${svcDatalist()}</label>
+    <label class="field"><span>Date completed</span><input class="inp" id="j_date" type="date" required value="${esc(j.date)}"></label>
+    <label class="field"><span>Amount ($)</span><input class="inp" id="j_amount" type="number" step="0.01" min="0" required value="${esc(j.amount)}"></label>
+    <label class="field"><span>Hours spent (optional)</span><input class="inp" id="j_hours" type="number" step="0.25" min="0" value="${esc(j.hours ?? '')}" placeholder="Total crew hours"></label>
+    <label class="field"><span>&nbsp;</span><span class="check"><input type="checkbox" id="j_paid" ${j.paid ? 'checked' : ''}> Paid</span></label>
+    <label class="field wide"><span>Notes</span><textarea class="inp" id="j_notes" rows="2">${esc(j.notes)}</textarea></label></div>
+    ${j.invoiceId ? `<p class="small muted">On invoice ${esc(S.invoices[j.invoiceId]?.number || '')}.</p>` : ''}
+    ${id ? confirmBar('Delete this job?', 'delJob', id) : ''}</div>
+    <div class="dlg-f">${id ? '<button type="button" class="btn danger sp" data-act="askConfirm">Delete</button>' : '<span class="sp"></span>'}<button type="button" class="btn" data-act="closeDlg">Cancel</button><button class="btn primary" type="submit">${id ? 'Save' : 'Log job'}</button></div></form>`);
+  $('#j_client').addEventListener('change', () => { const cid = findClientByLabel($('#j_client').value); if (cid && !$('#j_amount').value && S.clients[cid].mowPrice && /mow/i.test($('#j_service').value)) $('#j_amount').value = S.clients[cid].mowPrice; });
+  $('#jobForm').addEventListener('submit', e => { e.preventDefault();
+    const label = $('#j_client').value.trim(); const cid = j.kind === 'mow-import' ? '' : ensureClient(label); const cl = S.clients[cid] || {};
+    const data = Object.assign({}, clone(j), { date: $('#j_date').value, clientId: cid || '', clientName: cl.name || label, address: cl.address || '', service: $('#j_service').value.trim(), amount: r2($('#j_amount').value), hours: $('#j_hours').value === '' ? null : Number($('#j_hours').value), paid: $('#j_paid').checked, notes: $('#j_notes').value.trim() });
+    if (!data.kind) data.kind = 'project';
+    put('jobs', id || uid('j'), data); closeDlg(); toast(id ? 'Job saved' : 'Job logged'); renderBody(); });
+}
+function mowDialog(w, cid) {
+  const e = S.weeks[w]?.entries?.[cid]; if (!e) return;
+  openDlg(`${dlgHead('Edit mow')}<form id="mowForm" class="dlg" style="max-height:none"><div class="dlg-b"><p class="muted" style="margin:0">${esc(e.name)} · week of ${fmtDate(w)}</p><div class="fields">
+    <label class="field"><span>Date</span><input class="inp" id="m_date" type="date" min="${w}" max="${addDays(w, 6)}" value="${esc(e.date || w)}"></label>
+    <label class="field"><span>Amount ($)</span><input class="inp" id="m_amount" type="number" step="0.01" min="0" value="${esc(e.amount)}"></label>
+    <label class="field"><span>&nbsp;</span><span class="check"><input type="checkbox" id="m_paid" ${e.paid ? 'checked' : ''}> Paid</span></label>
+    <label class="field"><span>&nbsp;</span><span class="check"><input type="checkbox" id="m_front" ${e.front ? 'checked' : ''}> Front only</span></label></div>
+    ${confirmBar('Remove this mow?', 'delMow', w + '|' + cid)}</div>
+    <div class="dlg-f"><button type="button" class="btn danger sp" data-act="askConfirm">Remove</button><button type="button" class="btn" data-act="closeDlg">Cancel</button><button class="btn primary">Save</button></div></form>`);
+  $('#mowForm').addEventListener('submit', ev => { ev.preventDefault(); const d = clone(S.weeks[w]); Object.assign(d.entries[cid], { date: $('#m_date').value || w, amount: r2($('#m_amount').value), paid: $('#m_paid').checked, front: $('#m_front').checked }); put('weeks', w, d); closeDlg(); toast('Mow saved'); renderBody(); });
+}
+
+// Client dialog
+function clientDialog(id) {
+  const c = id ? S.clients[id] : { name: '', address: '', phone: '', email: '', source: '', frequency: 'weekly', mowPrice: '', active: true, notes: '' };
+  let stats = '', history = '';
+  if (id) {
+    const st = clientStats(id, null);
+    const es = st.entries.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    stats = `<div class="statgrid"><div class="stat"><span class="label">All-time revenue</span><b>${money0(st.rev)}</b></div><div class="stat"><span class="label">Mows</span><b>${st.mows}</b></div><div class="stat"><span class="label">Owes</span><b style="color:${st.unpaid > 0 ? 'var(--warn)' : 'inherit'}">${money(st.unpaid)}</b></div><div class="stat"><span class="label">Jobs logged</span><b>${es.length}</b></div></div>
+      ${c.importedMows ? `<p class="small muted" style="margin:0">Includes ${c.importedMows} mows (${money0(c.importedMowRevenue)}) carried over from your 2026 spreadsheet.</p>` : ''}
+      <div class="toolbar">${st.unpaid > 0 ? `<button type="button" class="btn primary sm" data-act="invoiceUnpaid" data-id="${id}">Invoice ${money0(st.unpaid)} unpaid</button>` : ''}<button type="button" class="btn sm" data-act="quoteFor" data-id="${id}">New quote</button><button type="button" class="btn sm" data-act="calcFor" data-id="${id}">Price a job</button><button type="button" class="btn sm" data-act="jobFor" data-id="${id}">Log a job</button></div>`;
+    history = es.length ? `<div><span class="label">History</span><div class="tbl-wrap"><table><tbody>${es.slice(0, 40).map(e => `<tr><td class="muted num" style="white-space:nowrap">${fmtDate(e.date)} ${String(e.date).slice(0, 4) !== String(S.year) ? String(e.date).slice(0, 4) : ''}</td><td>${esc(e.service)}</td><td class="r num">${money(e.amount)}</td><td>${e.paid ? '<span class="pill green">Paid</span>' : '<span class="pill warn">Unpaid</span>'}</td></tr>`).join('')}</tbody></table></div></div>` : '';
+  }
+  openDlg(`${dlgHead(id ? esc(c.name) : 'Add client')}<form id="clientForm" class="dlg" style="max-height:none"><div class="dlg-b">${stats}<div class="fields">
+    <label class="field"><span>Name</span><input class="inp" id="c_name" required value="${esc(c.name)}"></label>
+    <label class="field"><span>Address</span><input class="inp" id="c_address" value="${esc(c.address)}"></label>
+    <label class="field"><span>Phone</span><input class="inp" id="c_phone" type="tel" value="${esc(c.phone)}"></label>
+    <label class="field"><span>Email</span><input class="inp" id="c_email" type="email" value="${esc(c.email)}"></label>
+    <label class="field"><span>Mowing plan</span><select class="inp" id="c_freq">${Object.entries(FREQ).map(([k, l]) => `<option value="${k}" ${c.frequency === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+    <label class="field"><span>Price per mow (or per month on a monthly plan)</span><input class="inp" id="c_price" type="number" step="0.01" min="0" value="${esc(c.mowPrice)}"></label>
+    <label class="field"><span>Front-only price (if they sometimes want just the front)</span><input class="inp" id="c_front" type="number" step="0.01" min="0" value="${esc(c.frontPrice || '')}" placeholder="Leave blank if never"></label>
+    <label class="field"><span>Minutes per cut (for $/hour)</span><input class="inp" id="c_min" type="number" min="0" step="5" value="${esc(c.mowMinutes || '')}"></label>
+    <label class="field"><span>How they pay</span><select class="inp" id="c_pay">${Object.entries(PAY).map(([k, l]) => `<option value="${k}" ${payType(c) === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+    <label class="field"><span>Bi-weekly group</span><select class="inp" id="c_bw"><option value="" ${!c.bwGroup ? 'selected' : ''}>Not set</option>${['A', 'B'].map(g => `<option value="${g}" ${c.bwGroup === g ? 'selected' : ''}>Week ${g}${weekGroup(mondayOf(today())) === g ? ' (this week)' : ''}</option>`).join('')}</select></label>
+    <label class="field"><span>How they found you / contact via</span><input class="inp" id="c_source" value="${esc(c.source)}" placeholder="Facebook, referral, door hanger…"></label>
+    <label class="field"><span>&nbsp;</span><span class="check"><input type="checkbox" id="c_active" ${c.active !== false ? 'checked' : ''}> Active client</span></label>
+    <label class="field wide"><span>Notes (gate code, dog, problem areas…)</span><textarea class="inp" id="c_notes" rows="2">${esc(c.notes)}</textarea></label></div>
+    ${history}${id ? confirmBar('Delete this client? Their past jobs stay in your revenue.', 'delClient', id) : ''}</div>
+    <div class="dlg-f">${id ? '<button type="button" class="btn danger sp" data-act="askConfirm">Delete</button>' : '<span class="sp"></span>'}<button type="button" class="btn" data-act="closeDlg">Cancel</button><button class="btn primary">${id ? 'Save' : 'Add client'}</button></div></form>`);
+  $('#clientForm').addEventListener('submit', e => { e.preventDefault();
+    const data = Object.assign({}, clone(c), { name: $('#c_name').value.trim(), address: $('#c_address').value.trim(), phone: $('#c_phone').value.trim(), email: $('#c_email').value.trim(), frequency: $('#c_freq').value, mowPrice: r2($('#c_price').value), frontPrice: Number($('#c_front').value) || 0, source: $('#c_source').value.trim(), mowMinutes: Number($('#c_min').value) || 0, pay: $('#c_pay').value, bwGroup: $('#c_bw').value, active: $('#c_active').checked, notes: $('#c_notes').value.trim() });
+    if (!id) data.createdAt = today();
+    put('clients', id || uid('c'), data); closeDlg(); toast(id ? 'Client saved' : 'Client added'); renderBody(); });
+}
+
+// Expense dialog
+function expenseDialog(id) {
+  const x = id ? S.expenses[id] : { date: today(), category: 'Fuel', description: '', amount: '' };
+  openDlg(`${dlgHead(id ? 'Edit expense' : 'Add expense')}<form id="expForm" class="dlg" style="max-height:none"><div class="dlg-b"><div class="fields">
+    <label class="field"><span>Date</span><input class="inp" id="x_date" type="date" required value="${esc(x.date)}"></label>
+    <label class="field"><span>Category</span><select class="inp" id="x_cat">${[...new Set([...EXP_CATS, x.category])].map(k => `<option ${k === x.category ? 'selected' : ''}>${esc(k)}</option>`).join('')}</select></label>
+    <label class="field"><span>Amount ($)</span><input class="inp" id="x_amount" type="number" step="0.01" min="0" required value="${esc(x.amount)}"></label>
+    <label class="field wide"><span>Description</span><input class="inp" id="x_desc" value="${esc(x.description)}" placeholder="e.g. Gas at Esso, 2 rolls trimmer line"></label>
+    <div class="field wide"><span>Receipt</span>${x.receipt ? `<div class="receipt" id="rcptCur">${x.receiptType === 'application/pdf' ? `<a href="${receiptSrc(x.receipt)}" data-receipt="${esc(x.receipt)}" data-rtype="pdf" target="_blank" rel="noopener">Open PDF receipt</a>` : `<a href="${receiptSrc(x.receipt)}" data-receipt="${esc(x.receipt)}" target="_blank" rel="noopener"><img data-receipt="${esc(x.receipt)}" src="${receiptSrc(x.receipt)}" alt="Receipt"></a>`}<button type="button" class="btn sm danger" data-act="rmReceipt">Remove</button></div>` : ''}
+      ${ASSETS ? `<input class="inp" id="x_file" type="file" accept="image/*,application/pdf">` : '<span class="small muted">Receipt photos can be added when you open the app in your browser while signed in.</span>'}</div></div>
+    ${id ? confirmBar('Delete this expense?', 'delExpense', id) : ''}</div>
+    <div class="dlg-f">${id ? '<button type="button" class="btn danger sp" data-act="askConfirm">Delete</button>' : '<span class="sp"></span>'}<button type="button" class="btn" data-act="closeDlg">Cancel</button><button class="btn primary">${id ? 'Save' : 'Add expense'}</button></div></form>`);
+  window.__fillReceipts?.($('#dlgc'));
+  let rmRcpt = false;
+  $('#dlgc').addEventListener('click', ev => { if (ev.target.closest('[data-act="rmReceipt"]')) { rmRcpt = true; $('#rcptCur').hidden = true; } });
+  $('#expForm').addEventListener('submit', async e => { e.preventDefault();
+    const btn = $('#expForm .dlg-f .btn.primary'); const data = { date: $('#x_date').value, category: $('#x_cat').value, description: $('#x_desc').value.trim(), amount: r2($('#x_amount').value) };
+    if (x.receipt && !rmRcpt) { data.receipt = x.receipt; data.receiptType = x.receiptType || ''; }
+    const f = $('#x_file')?.files?.[0];
+    if (f && ASSETS) {
+      const type = RECEIPT_TYPES.includes(f.type) ? f.type : /\.pdf$/i.test(f.name) ? 'application/pdf' : /\.jpe?g$/i.test(f.name) ? 'image/jpeg' : /\.png$/i.test(f.name) ? 'image/png' : null;
+      if (!type) { toast('That file type is not supported. Use a JPG, PNG or PDF.', true); return; }
+      btn.disabled = true; btn.textContent = 'Uploading…';
+      try { const up = await ASSETS.upload(f, { type }); data.receipt = up.id; data.receiptType = type; }
+      catch (err) { btn.disabled = false; btn.textContent = 'Save'; toast(err?.code === 'too_large' ? 'That photo is over 20 MB. Try a smaller one.' : 'The receipt did not upload. Try again.', true); return; }
+    }
+    if (rmRcpt && x.receipt && ASSETS) ASSETS.delete(x.receipt).catch(() => {});
+    put('expenses', id || uid('e'), data); closeDlg(); toast(id ? 'Expense saved' : 'Expense added'); renderBody(); });
+}
+
+// Quote / invoice editor
+let ED = null; // {coll, id, doc}
+function docDialog(coll, id, preset) {
+  const isInv = coll === 'invoices', s = settings();
+  const base = isInv ? { number: nextNumber('invoices', 'INV'), date: today(), due: addDays(today(), 7), clientId: '', clientName: '', address: '', items: [{ desc: '', qty: 1, rate: '' }], taxRate: Number(s.taxRate) || 0, notes: '', status: 'unpaid', refs: [] }
+                     : { number: nextNumber('quotes', 'Q'), date: today(), validDays: 30, clientId: '', clientName: '', address: '', items: [{ desc: '', qty: 1, rate: '' }], taxRate: Number(s.taxRate) || 0, notes: '', status: 'draft' };
+  ED = { coll, id: id || null, doc: id ? clone(S[coll][id]) : Object.assign(base, clone(preset || {})) };
+  const d = ED.doc; const c = S.clients[d.clientId];
+  const statusSel = isInv ? `<select class="inp" id="d_status"><option value="unpaid" ${d.status !== 'paid' ? 'selected' : ''}>Unpaid</option><option value="paid" ${d.status === 'paid' ? 'selected' : ''}>Paid</option></select>`
+                          : `<select class="inp" id="d_status">${[['draft', 'Draft'], ['sent', 'Sent'], ['accepted', 'Accepted'], ['declined', 'Declined'], ['expired', 'No reply']].map(([v, l]) => `<option value="${v}" ${d.status === v ? 'selected' : ''}>${l}</option>`).join('')}</select>`;
+  openDlg(`${dlgHead(`${isInv ? 'Invoice' : 'Quote'} <span class="num">${esc(d.number)}</span>`)}<form id="docForm" class="dlg" style="max-height:none"><div class="dlg-b"><div class="fields">
+    <label class="field wide"><span>Client</span><input class="inp" id="d_client" list="clientList" required value="${esc(c ? clientLabel(c) : d.clientName)}" placeholder="Start typing a name or address">${clientDatalist()}</label>
+    <label class="field"><span>Date</span><input class="inp" id="d_date" type="date" value="${esc(d.date)}"></label>
+    ${isInv ? `<label class="field"><span>Due</span><input class="inp" id="d_due" type="date" value="${esc(d.due || '')}"></label>` : `<label class="field"><span>Valid for (days)</span><input class="inp" id="d_valid" type="number" min="1" value="${esc(d.validDays || 30)}"></label>`}
+    <label class="field"><span>Status</span>${statusSel}</label>
+    <label class="field"><span>Tax %</span><input class="inp" id="d_tax" type="number" step="0.01" min="0" value="${esc(d.taxRate)}"></label></div>
+    <div class="items"><div class="item items-h"><span>Description</span><span>Qty</span><span>Rate</span><span class="tot">Amount</span><span></span></div><div id="itemRows"></div>
+    <div>${svcDatalist()}<button type="button" class="btn sm" data-act="addItem">+ Add line</button></div></div>
+    <div class="totals" id="docTotals"></div>
+    <label class="field"><span>Note to client</span><textarea class="inp" id="d_notes" rows="2" placeholder="${isInv ? 'Thanks for your business!' : 'Includes debris removal and haul-away.'}">${esc(d.notes)}</textarea></label>
+    ${c && (c.phone || c.email) ? `<div class="contact small"><span class="label">Send to</span>${c.email ? `<span>${esc(c.email)}</span>` : ''}${c.phone ? `<span>${esc(c.phone)}</span>` : ''}</div>` : ''}
+    <div id="msgArea" hidden><span class="label">Message to send with it</span><textarea class="inp msgbox" id="msgText"></textarea><div class="toolbar" style="margin-top:6px"><button type="button" class="btn sm primary" data-act="copyMsg">Copy message</button><span class="small muted">Paste into email, text or Facebook, and attach the PDF.</span></div></div>
+    ${ED.id ? confirmBar(`Delete this ${isInv ? 'invoice' : 'quote'}?`, 'delDoc', ED.id) : ''}</div>
+    <div class="dlg-f">${ED.id ? '<button type="button" class="btn danger" data-act="askConfirm">Delete</button>' : ''}<span class="sp"></span>
+      <button type="button" class="btn" data-act="docPdf">Download PDF</button><button type="button" class="btn" data-act="docMsg">Write message</button>
+      ${!isInv && ED.id ? '<button type="button" class="btn" data-act="quoteToInvoice">Turn into invoice</button>' : ''}
+      <button class="btn primary">Save</button></div></form>`);
+  renderItems();
+  $('#docForm').addEventListener('input', e => { if (e.target.closest('#itemRows')) { readItems(); renderTotals(); } if (e.target.id === 'd_tax') { ED.doc.taxRate = Number(e.target.value) || 0; renderTotals(); } });
+  $('#docForm').addEventListener('submit', e => { e.preventDefault(); if (saveDoc()) { closeDlg(); toast('Saved'); renderBody(); } });
+}
+function renderItems() {
+  $('#itemRows').innerHTML = ED.doc.items.map((it, i) => `<div class="item" data-i="${i}"><input class="inp" data-k="desc" list="svcList" value="${esc(it.desc)}" placeholder="Service or item" aria-label="Description"><input class="inp num" data-k="qty" type="number" step="0.25" min="0" value="${esc(it.qty)}" aria-label="Quantity"><input class="inp num" data-k="rate" type="number" step="0.01" value="${esc(it.rate)}" placeholder="0.00" aria-label="Rate"><span class="tot">${money((Number(it.qty) || 0) * (Number(it.rate) || 0))}</span><button type="button" class="btn ghost sm" data-act="rmItem" data-i="${i}" aria-label="Remove line">✕</button></div>`).join('');
+  renderTotals();
+}
+function readItems() { document.querySelectorAll('#itemRows .item').forEach(row => { const it = ED.doc.items[row.dataset.i]; row.querySelectorAll('[data-k]').forEach(inp => it[inp.dataset.k] = inp.dataset.k === 'desc' ? inp.value : inp.value); row.querySelector('.tot').textContent = money((Number(it.qty) || 0) * (Number(it.rate) || 0)); }); }
+function renderTotals() { const t = docTotal(ED.doc); $('#docTotals').innerHTML = `<div><span class="muted">Subtotal</span><span class="num">${money(t.sub)}</span></div>${t.tax ? `<div><span class="muted">Tax (${ED.doc.taxRate}%)</span><span class="num">${money(t.tax)}</span></div>` : ''}<div class="grand"><span>Total</span><span class="num">${money(t.total)}</span></div>`; }
+function collectDoc() {
+  readItems(); const d = ED.doc; const isInv = ED.coll === 'invoices';
+  const label = $('#d_client').value.trim(); const cid = ensureClient(label); const cl = S.clients[cid] || {};
+  Object.assign(d, { clientId: cid || '', clientName: cl.name || label, address: cl.address || '', date: $('#d_date').value || today(), taxRate: Number($('#d_tax').value) || 0, notes: $('#d_notes').value.trim(), status: $('#d_status').value });
+  if (isInv) d.due = $('#d_due').value; else d.validDays = Number($('#d_valid').value) || 30;
+  d.items = d.items.filter(it => String(it.desc).trim() || Number(it.rate)).map(it => ({ desc: String(it.desc).trim(), qty: Number(it.qty) || 0, rate: r2(it.rate) }));
+  return d;
+}
+function saveDoc() {
+  if (!$('#d_client').value.trim()) { toast('Pick a client first.', true); return false; }
+  const d = collectDoc(); if (!d.items.length) { toast('Add at least one line.', true); return false; }
+  const prev = ED.id ? S[ED.coll][ED.id] : null; const id = ED.id || uid(ED.coll === 'invoices' ? 'i' : 'q'); ED.id = id;
+  if (ED.coll === 'invoices' && d.status === 'paid' && !d.paidOn) d.paidOn = today();
+  put(ED.coll, id, d);
+  if (ED.coll === 'invoices') { const paid = d.status === 'paid'; if (!prev || (prev.status === 'paid') !== paid || !prev.refs) (d.refs || []).forEach(src => setEntryPaid(src, paid, id)); }
+  return true;
+}
+function docMessage(coll, d) {
+  const s = settings(), t = docTotal(d), isInv = coll === 'invoices', fn = firstName(d.clientName);
+  if (isInv) return `Hi ${fn},\n\nThanks for choosing ${s.businessName}! Attached is invoice ${d.number} for ${money(t.total)}${d.address ? ` for work at ${d.address}` : ''}.\n\n${(d.items || []).map(it => `• ${it.desc}${it.qty !== 1 ? ` (${it.qty} × ${money(it.rate)})` : ''}: ${money(it.qty * it.rate)}`).join('\n')}\n\n${d.due ? `Payment is due by ${fmtDateY(d.due)}. ` : ''}${s.etransfer ? `You can e-transfer to ${s.etransfer}. ` : ''}Let me know if you have any questions.\n\nThanks,\n${s.businessName}${s.phone ? `\n${s.phone}` : ''}`;
+  return `Hi ${fn},\n\nThanks for reaching out to ${s.businessName}. Here's your quote ${d.number}${d.address ? ` for ${d.address}` : ''}:\n\n${(d.items || []).map(it => `• ${it.desc}: ${money(it.qty * it.rate)}`).join('\n')}\n\nTotal: ${money(t.total)}${t.tax ? ` (includes ${money(t.tax)} tax)` : ''}\n\nThis quote is good for ${d.validDays || 30} days. Just reply to this message to book a date.\n\nThanks,\n${s.businessName}${s.phone ? `\n${s.phone}` : ''}`;
+}
+
+// PDF
+const LOGO_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 64"><path d="M7 32 36 8l29 24" fill="none" stroke="#1F4D3A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><rect x="50" y="10" width="6" height="13" rx="1.5" fill="#1F4D3A"/><path d="M26.5 17.5c-1.5-9.5-9-14-18.5-13c1 9 8.5 14.5 18.5 13z" fill="#C9A54C"/><path d="M25.5 16.5C21 12 15 8.5 9.5 6" stroke="#FFFFFF" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".8"/><g transform="translate(18 29)"><rect width="17" height="15" rx="2.5" fill="#1F4D3A"/><rect x="19" width="17" height="15" rx="2.5" fill="#C9A54C"/><rect y="17" width="17" height="15" rx="2.5" fill="#C9A54C"/><rect x="19" y="17" width="17" height="15" rx="2.5" fill="#1F4D3A"/><g stroke="#FFFFFF" stroke-width="2.2" opacity=".5" stroke-linecap="round"><path d="M3 5h11M3 10h11M22 22h11M22 27h11"/></g></g></svg>';
+let LOGO_PNG = null;
+(() => { const img = new Image(); img.onload = () => { try { const c = document.createElement('canvas'); c.width = 288; c.height = 256; c.getContext('2d').drawImage(img, 0, 0, 288, 256); LOGO_PNG = c.toDataURL('image/png'); } catch (e) {} }; img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(LOGO_SVG); })();
+function buildPdf(coll, d) {
+  if (!window.jspdf) throw new Error('nopdf');
+  const { jsPDF } = window.jspdf; const pdf = new jsPDF({ unit: 'pt', format: 'letter' });
+  const s = settings(), t = docTotal(d), isInv = coll === 'invoices', W = 612, M = 48; let y = 56;
+  pdf.setFillColor(31, 77, 58); pdf.rect(0, 0, W, 10, 'F'); pdf.setFillColor(201, 165, 76); pdf.rect(0, 10, W, 2, 'F');
+  let bx = M; if (LOGO_PNG) { try { pdf.addImage(LOGO_PNG, 'PNG', M, y - 32, 45, 40); bx = M + 56; } catch (e) {} }
+  pdf.setFont('helvetica', 'bold'); pdf.setFontSize(22); pdf.setTextColor(31, 77, 58); pdf.text(s.businessName, bx, y - 4);
+  if (s.tagline) { pdf.setFontSize(8); pdf.setTextColor(176, 138, 46); pdf.text(s.tagline.toUpperCase(), bx, y + 8, { charSpace: 1.2 }); } y += 16;
+  pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10); pdf.setTextColor(91, 104, 95);
+  const contact = [s.address, [s.phone, s.email].filter(Boolean).join('  ·  '), s.hst ? `HST # ${s.hst}` : ''].filter(Boolean);
+  contact.forEach((l, i) => pdf.text(l, M, y + 18 + i * 13));
+  pdf.setFont('helvetica', 'bold'); pdf.setFontSize(20); pdf.setTextColor(176, 138, 46); pdf.text(isInv ? 'INVOICE' : 'QUOTE', W - M, y - 16, { align: 'right', charSpace: 1 });
+  pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10); pdf.setTextColor(23, 33, 26);
+  const meta = [[isInv ? 'Invoice #' : 'Quote #', d.number], ['Date', fmtDateY(d.date)], isInv ? ['Due', d.due ? fmtDateY(d.due) : 'On receipt'] : ['Valid until', fmtDateY(addDays(d.date, d.validDays || 30))]];
+  meta.forEach(([k, v], i) => { pdf.setTextColor(91, 104, 95); pdf.text(k, W - M - 150, y + 18 + i * 14); pdf.setTextColor(23, 33, 26); pdf.text(String(v), W - M, y + 18 + i * 14, { align: 'right' }); });
+  y += 30 + Math.max(contact.length, 3) * 14 + 16;
+  const cl = S.clients[d.clientId] || {};
+  pdf.setFontSize(9); pdf.setTextColor(91, 104, 95); pdf.text(isInv ? 'BILL TO' : 'PREPARED FOR', M, y); y += 15;
+  pdf.setFontSize(11); pdf.setTextColor(23, 33, 26); pdf.setFont('helvetica', 'bold'); pdf.text(d.clientName || '', M, y); pdf.setFont('helvetica', 'normal');
+  [d.address !== d.clientName ? d.address : '', cl.phone, cl.email].filter(Boolean).forEach(l => { y += 14; pdf.text(l, M, y); });
+  y += 28;
+  pdf.setFillColor(31, 77, 58); pdf.rect(M, y - 13, W - 2 * M, 22, 'F'); pdf.setFontSize(9); pdf.setTextColor(255, 255, 255); pdf.setFont('helvetica', 'bold');
+  pdf.text('DESCRIPTION', M + 8, y + 2); pdf.text('QTY', W - M - 200, y + 2, { align: 'right' }); pdf.text('RATE', W - M - 110, y + 2, { align: 'right' }); pdf.text('AMOUNT', W - M - 8, y + 2, { align: 'right' });
+  pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10); pdf.setTextColor(23, 33, 26); y += 26;
+  for (const it of d.items || []) {
+    const lines = pdf.splitTextToSize(it.desc || '', W - 2 * M - 230);
+    if (y + lines.length * 13 > 700) { pdf.addPage(); y = 60; }
+    pdf.text(lines, M + 8, y); pdf.text(String(it.qty), W - M - 200, y, { align: 'right' }); pdf.text(money(it.rate), W - M - 110, y, { align: 'right' }); pdf.text(money(it.qty * it.rate), W - M - 8, y, { align: 'right' });
+    y += lines.length * 13 + 8; pdf.setDrawColor(211, 219, 211); pdf.line(M, y - 4, W - M, y - 4); y += 8;
+  }
+  y += 6; const tx = W - M - 150;
+  const row = (k, v, bold) => { pdf.setFont('helvetica', bold ? 'bold' : 'normal'); pdf.setFontSize(bold ? 13 : 10); pdf.setTextColor(bold ? 23 : 91, bold ? 33 : 104, bold ? 26 : 95); pdf.text(k, tx, y); pdf.setTextColor(23, 33, 26); pdf.text(v, W - M - 8, y, { align: 'right' }); y += bold ? 20 : 15; };
+  row('Subtotal', money(t.sub)); if (t.tax) row(`Tax (${d.taxRate}%)`, money(t.tax)); y += 4; row(isInv ? 'Total due' : 'Total', money(t.total), true);
+  if (isInv && d.status === 'paid') { pdf.setTextColor(31, 77, 58); pdf.setFont('helvetica', 'bold'); pdf.setFontSize(12); pdf.text('PAID — thank you!', W - M - 8, y + 4, { align: 'right' }); y += 20; }
+  y += 18; pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10); pdf.setTextColor(23, 33, 26);
+  const foot = [d.notes, isInv ? s.terms : 'To accept, just reply to this quote or give us a call.', isInv && s.etransfer ? `E-transfer: ${s.etransfer}` : ''].filter(Boolean);
+  foot.forEach(f => { const ls = pdf.splitTextToSize(f, W - 2 * M); if (y + ls.length * 13 > 740) { pdf.addPage(); y = 60; } pdf.text(ls, M, y); y += ls.length * 13 + 6; });
+  pdf.setFontSize(9); pdf.setTextColor(91, 104, 95); pdf.text(`Thank you for choosing ${s.businessName}.`, W / 2, 760, { align: 'center' });
+  return pdf.output('blob');
+}
+async function offerFile(filename, data) {
+  const dl = await claude.use('downloads');
+  if (!dl) { toast('Downloads are not available in this view.', true); return; }
+  try { await dl.save({ filename, data }); } catch (e) { if (e && e.code !== 'declined') toast(e.code === 'rate_limited' ? 'A download prompt is already open.' : 'Could not offer the file.', true); }
+}
+function csv(rows) { return rows.map(r => r.map(v => { v = String(v ?? ''); return /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v; }).join(',')).join('\n'); }
+
+// ---------- shared: invoice building ----------
+function itemsFromEntries(es) {
+  const items = [], mows = {};
+  for (const x of es) {
+    if (x.kind === 'mow') { const k = (x.front ? 'f' : 'm') + x.amount; (mows[k] = mows[k] || []).push(x); }
+    else items.push({ desc: `${x.service} — ${fmtDate(x.date)}`, qty: 1, rate: x.amount });
+  }
+  const mowItems = Object.entries(mows).map(([amt, xs]) => { xs.sort((a, b) => a.date.localeCompare(b.date)); const byM = {}; xs.forEach(x => (byM[monthOf(x.date)] = byM[monthOf(x.date)] || []).push(parse(x.date).getDate()));
+    const dates = Object.entries(byM).map(([m, ds]) => `${MONTHS[m]} ${ds.join(', ')}`).join('; ');
+    return { desc: `${xs[0].service} — ${xs.length} cut${xs.length === 1 ? '' : 's'} (${dates})`, qty: xs.length, rate: Number(xs[0].amount) }; });
+  return [...mowItems, ...items];
+}
+function createInvoice(cid, es) {
+  const c = S.clients[cid] || {}; const s = settings(); const id = uid('i');
+  const d = { number: nextNumber('invoices', 'INV'), date: today(), due: addDays(today(), 7), clientId: cid, clientName: c.name || es[0]?.clientName || '', address: c.address || '', items: itemsFromEntries(es), taxRate: Number(s.taxRate) || 0, notes: '', status: 'unpaid', refs: es.map(x => x.src) };
+  put('invoices', id, d);
+  const weeks = {};
+  for (const x of es) { if (x.src.t === 'job') { const j = clone(S.jobs[x.src.id]); j.invoiceId = id; put('jobs', x.src.id, j); } else { const w = weeks[x.src.w] || (weeks[x.src.w] = clone(S.weeks[x.src.w])); w.entries[x.src.cid].invoiceId = id; } }
+  for (const [w, doc] of Object.entries(weeks)) put('weeks', w, doc);
+  return id;
+}
+const weekEmpty = d => !d || (!Object.keys(d.entries || {}).length && !(d.carry || []).length && !(d.moved || []).length);
+
+// ---------- 1. month-end billing run ----------
+let RUN = null;
+function billingRunDialog() {
+  const t = parse(today()); const def = t.getDate() >= 20 ? today().slice(0, 7) : ymd(new Date(t.getFullYear(), t.getMonth() - 1, 1)).slice(0, 7);
+  RUN = RUN && !RUN.done ? RUN : { month: def, types: { monthend: true, plan: true, each: false }, skip: {}, done: null };
+  renderRun();
+  if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } }
+}
+function runCandidates() {
+  const g = {};
+  for (const e of unpaidEntries()) {
+    if (!e.clientId || e.invoiceId || !(e.date || '').startsWith(RUN.month)) continue;
+    const c = S.clients[e.clientId]; if (!c || !RUN.types[payType(c)]) continue;
+    (g[e.clientId] = g[e.clientId] || []).push(e);
+  }
+  return Object.entries(g).map(([cid, es]) => ({ cid, es, total: es.reduce((a, x) => a + x.amount, 0) })).sort((a, b) => (S.clients[a.cid].name || '').localeCompare(S.clients[b.cid].name || ''));
+}
+function renderRun() {
+  if (RUN.done) {
+    const list = RUN.done.map(id => [id, S.invoices[id]]).filter(([, d]) => d);
+    $('#dlgc').innerHTML = `${dlgHead('Invoices ready to send')}<div class="dlg-b"><p class="muted" style="margin:0">Created ${list.length} invoice${list.length === 1 ? '' : 's'} for ${MONTHS_L[monthOf(RUN.month + '-01')]}. For each one, download the PDF, copy the message, and send both to the client.</p>
+      <div class="tbl-wrap"><table><tbody>${list.map(([id, d]) => { const c = S.clients[d.clientId] || {}; return `<tr><td><b>${esc(d.number)}</b> · ${esc(d.clientName)}<div class="muted small">${esc([c.email, c.phone, c.source].filter(Boolean).join(' · ') || 'No contact saved')}</div></td><td class="r num">${money(docTotal(d).total)}</td><td class="r" style="white-space:nowrap"><button type="button" class="btn sm" data-act="runPdf" data-id="${id}">PDF</button> <button type="button" class="btn sm primary" data-act="runMsg" data-id="${id}">Copy message</button></td></tr>`; }).join('')}</tbody></table></div></div>
+      <div class="dlg-f"><span class="sp"></span><button type="button" class="btn" data-act="runReset">Start another run</button><button type="button" class="btn primary" data-act="closeDlg">Done</button></div>`;
+    return;
+  }
+  const months = [...new Set(unpaidEntries().map(e => (e.date || '').slice(0, 7)).filter(Boolean))].sort().reverse();
+  if (!months.includes(RUN.month)) months.unshift(RUN.month);
+  const cands = runCandidates(); const chosen = cands.filter(x => !RUN.skip[x.cid]);
+  $('#dlgc').innerHTML = `${dlgHead('Month-end billing')}<div class="dlg-b">
+    <div class="fields"><label class="field"><span>Bill for</span><select class="inp" id="runMonth">${months.map(m => `<option value="${m}" ${m === RUN.month ? 'selected' : ''}>${MONTHS_L[monthOf(m + '-01')]} ${m.slice(0, 4)}</option>`).join('')}</select></label>
+    <div class="field"><span>Include clients who…</span><div class="toolbar">${Object.entries(PAY).map(([k, l]) => `<label class="check small"><input type="checkbox" data-runtype="${k}" ${RUN.types[k] ? 'checked' : ''}> ${l}</label>`).join('')}</div></div></div>
+    ${cands.length ? `<div class="tbl-wrap"><table><tbody>${cands.map(x => { const c = S.clients[x.cid]; return `<tr><td style="width:28px"><input type="checkbox" class="check" data-runskip="${x.cid}" ${RUN.skip[x.cid] ? '' : 'checked'} aria-label="Include ${esc(c.name)}" style="width:18px;height:18px;accent-color:var(--accent)"></td><td><b>${esc(c.name)}</b><div class="muted small">${x.es.length} unpaid · ${PAY[payType(c)]}</div></td><td class="r num">${money(x.total)}</td></tr>`; }).join('')}</tbody></table></div>`
+      : `<div class="empty">Nothing unbilled for ${MONTHS_L[monthOf(RUN.month + '-01')]} with these settings.</div>`}
+  </div><div class="dlg-f"><span class="sp muted small">${chosen.length} invoice${chosen.length === 1 ? '' : 's'} · ${money(chosen.reduce((a, x) => a + x.total, 0))}</span><button type="button" class="btn" data-act="closeDlg">Cancel</button><button type="button" class="btn primary" data-act="runCreate" ${chosen.length ? '' : 'disabled'}>Create ${chosen.length || ''} invoice${chosen.length === 1 ? '' : 's'}</button></div>`;
+}
+document.addEventListener('change', e => {
+  if (e.target.id === 'runMonth') { RUN.month = e.target.value; RUN.skip = {}; renderRun(); }
+  else if (e.target.dataset.runtype) { RUN.types[e.target.dataset.runtype] = e.target.checked; renderRun(); }
+  else if (e.target.dataset.runskip) { RUN.skip[e.target.dataset.runskip] = !e.target.checked; renderRun(); }
+});
+
+// ---------- 2. outreach campaigns ----------
+function campaigns() { return [...new Set(Object.values(S.quotes).map(q => q.campaign).filter(Boolean))].sort(); }
+function lastPriceFor(cid, service) {
+  const k = normSvc(service); let best = null;
+  for (const j of Object.values(S.jobs)) if (j.clientId === cid && normSvc(j.service) === k && (!best || j.date > best.date)) best = j;
+  return best ? best.amount : null;
+}
+let CAMP = null;
+function campaignDialog() {
+  const y = new Date().getFullYear(); const m = new Date().getMonth();
+  CAMP = { name: m >= 8 ? `Fall cleanup ${y}` : m <= 3 ? `Spring cleanup ${y}` : `Outreach ${y}`, service: m >= 8 ? 'Fall cleanup' : 'Spring cleanup', price: '', who: 'mowing', sel: {}, prices: {} };
+  renderCamp(); if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } }
+}
+function campList() {
+  const k = normSvc(CAMP.service);
+  return sortedClients().filter(([id, c]) => c.active !== false && (CAMP.who === 'all' || (CAMP.who === 'mowing' ? ['weekly', 'biweekly', 'monthly', 'oncall'].includes(c.frequency) : Object.values(S.jobs).some(j => j.clientId === id && normSvc(j.service) === k))));
+}
+function renderCamp() {
+  const list = campList();
+  const n = list.filter(([id]) => CAMP.sel[id]).length;
+  $('#dlgc').innerHTML = `${dlgHead('New outreach campaign')}<div class="dlg-b">
+    <p class="muted small" style="margin:0">Pick who to offer a service to. Each person gets a draft quote you can send with one tap from the Quotes list, then track who says yes.</p>
+    <div class="fields"><label class="field"><span>Campaign name</span><input class="inp" id="cp_name" value="${esc(CAMP.name)}"></label>
+    <label class="field"><span>Service</span><input class="inp" id="cp_svc" list="svcList" value="${esc(CAMP.service)}">${svcDatalist()}</label>
+    <label class="field"><span>Default price ($)</span><input class="inp" id="cp_price" type="number" step="0.01" min="0" value="${esc(CAMP.price)}" placeholder="Leave blank to price each"></label></div>
+    <div class="toolbar"><div class="seg" role="group" aria-label="Who">${[['mowing', 'Mowing clients'], ['past', 'Past customers of this service'], ['all', 'All active clients']].map(([v, l]) => `<button type="button" data-act="campWho" data-v="${v}" aria-pressed="${CAMP.who === v}">${l}</button>`).join('')}</div>
+      <button type="button" class="btn sm" data-act="campAll">Select all</button><button type="button" class="btn sm" data-act="campNone">Clear</button></div>
+    ${list.length ? `<div class="tbl-wrap"><table><tbody>${list.map(([id, c]) => { const last = lastPriceFor(id, CAMP.service); const val = CAMP.prices[id] ?? (last ?? CAMP.price);
+      return `<tr><td style="width:28px"><input type="checkbox" data-campsel="${id}" ${CAMP.sel[id] ? 'checked' : ''} aria-label="Include ${esc(c.name)}" style="width:18px;height:18px;accent-color:var(--accent)"></td><td><b>${esc(c.name)}</b><div class="muted small">${esc(c.address && c.address !== c.name ? c.address : '')}${last != null ? ` · paid ${money0(last)} last time` : ''}</div></td><td class="r" style="width:110px"><input class="inp num" type="number" step="0.01" min="0" data-campprice="${id}" value="${esc(val)}" placeholder="$" aria-label="Price for ${esc(c.name)}"></td></tr>`; }).join('')}</tbody></table></div>` : '<div class="empty">No clients in this group.</div>'}
+  </div><div class="dlg-f"><span class="sp muted small">${n} selected</span><button type="button" class="btn" data-act="closeDlg">Cancel</button><button type="button" class="btn primary" data-act="campCreate" ${n ? '' : 'disabled'}>Create ${n || ''} quote${n === 1 ? '' : 's'}</button></div>`;
+}
+function readCampTop() { CAMP.name = $('#cp_name')?.value.trim() || CAMP.name; CAMP.service = $('#cp_svc')?.value.trim() || CAMP.service; CAMP.price = $('#cp_price')?.value ?? CAMP.price; }
+document.addEventListener('change', e => {
+  if (!CAMP || !dlg.open) return;
+  if (e.target.dataset.campsel) { CAMP.sel[e.target.dataset.campsel] = e.target.checked; readCampTop(); renderCamp(); }
+  else if (e.target.dataset.campprice) CAMP.prices[e.target.dataset.campprice] = e.target.value;
+  else if (['cp_svc', 'cp_price'].includes(e.target.id)) { readCampTop(); renderCamp(); }
+});
+function createCampaign() {
+  readCampTop(); let n = 0;
+  const missing = campList().filter(([id]) => CAMP.sel[id] && !(Number(CAMP.prices[id] ?? (lastPriceFor(id, CAMP.service) ?? CAMP.price)) > 0));
+  if (missing.length) { toast(`${missing.length} selected client${missing.length === 1 ? ' has' : 's have'} no price. Set a default price or price them one by one.`, true); return; }
+  for (const [id, c] of campList()) {
+    if (!CAMP.sel[id]) continue;
+    const last = lastPriceFor(id, CAMP.service); const rate = r2(CAMP.prices[id] ?? (last ?? CAMP.price));
+    put('quotes', uid('q'), { number: nextNumber('quotes', 'Q'), date: today(), validDays: 30, clientId: id, clientName: c.name, address: c.address || '', items: [{ desc: CAMP.service, qty: 1, rate }], taxRate: Number(settings().taxRate) || 0, notes: '', status: 'draft', campaign: CAMP.name });
+    n++;
+  }
+  S.f.billTab = 'quotes'; S.f.billStatus = 'all'; S.f.campaign = CAMP.name; CAMP = null; closeDlg(); renderShell(); renderBody();
+  toast(`${n} draft quotes created. Tap “Send” on each to copy its message.`);
+}
+function campaignSummary(name) {
+  const qs = Object.values(S.quotes).filter(q => q.campaign === name);
+  const by = s => qs.filter(q => q.status === s);
+  const acc = by('accepted'); const sent = qs.filter(q => q.status !== 'draft').length;
+  return `<div class="kpis"><div class="kpi"><span class="label">Offered</span><span class="v">${qs.length}</span><span class="s">${by('draft').length} not sent yet</span></div>
+    <div class="kpi"><span class="label">Waiting</span><span class="v">${by('sent').length}</span><span class="s">sent, no answer yet</span></div>
+    <div class="kpi hero"><span class="label">Booked</span><span class="v">${money0(acc.reduce((a, q) => a + docTotal(q).total, 0))}</span><span class="s">${acc.length} yes · ${sent ? Math.round(acc.length / sent * 100) : 0}% of those asked</span></div>
+    <div class="kpi"><span class="label">Declined / no reply</span><span class="v">${by('declined').length + by('expired').length}</span><span class="s">&nbsp;</span></div></div>`;
+}
+
+// ---------- 3 & 4. pricing ----------
+function cutsPerSeason(id, c) {
+  const st = clientStats(id, 2026); if (st.mows >= 3) return st.mows;
+  return { weekly: 26, biweekly: 13, monthly: 7, oncall: 4 }[c.frequency] || 0;
+}
+function hourly(c) { const m = Number(c.mowMinutes) || 0; if (!m) return null; const visits = c.frequency === 'monthly' ? 4.33 : 1; return (Number(c.mowPrice) || 0) / (m * visits / 60); }
+function proposedPrice(c) {
+  const pct = Number(S.f.raisePct) || 0, round = Number(S.f.raiseRound) || 0, target = Number(settings().targetRate) || 60;
+  const h = hourly(c); if (S.f.raiseOnlyLow && (h == null || h >= target)) return Number(c.mowPrice) || 0;
+  let p = (Number(c.mowPrice) || 0) * (1 + pct / 100); if (round) p = Math.ceil(p / round) * round; return r2(p);
+}
+VIEWS.pricing = {
+  shell: () => { const s = settings(); return `<div class="vhead"><h2>Pricing</h2></div>
+    <section class="panel"><h3>Plan next season's prices</h3><div class="fields">
+      <label class="field"><span>Your target hourly rate ($/hr)</span><input class="inp" id="targetRate" type="number" min="1" step="1" value="${esc(s.targetRate || 60)}"></label>
+      <label class="field"><span>Raise prices by (%)</span><input class="inp" id="raisePct" type="number" step="0.5" data-f="raisePct" value="${esc(S.f.raisePct)}"></label>
+      <label class="field"><span>Round new prices up to</span><select class="inp" id="raiseRound" data-f="raiseRound">${[['0', 'No rounding'], ['1', 'Nearest $1'], ['5', 'Nearest $5']].map(([v, l]) => `<option value="${v}" ${String(S.f.raiseRound) === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+      <label class="field"><span>&nbsp;</span><span class="check"><input type="checkbox" id="raiseOnlyLow" data-f="raiseOnlyLow" ${S.f.raiseOnlyLow ? 'checked' : ''}> Only raise clients under my target</span></label></div>
+      <p class="small muted" style="margin:10px 0 0">Enter roughly how many minutes each lawn takes, including setup and cleanup. The table works out what you really earn per hour.</p></section>`; },
+  body() {
+    const target = Number(settings().targetRate) || 60;
+    const rows = sortedClients().filter(([, c]) => c.active !== false && ['weekly', 'biweekly', 'monthly', 'oncall'].includes(c.frequency));
+    let curRev = 0, newRev = 0, timed = 0, minsSum = 0, revTimed = 0, below = 0;
+    const data = rows.map(([id, c]) => { const cuts = cutsPerSeason(id, c); const units = c.frequency === 'monthly' ? 7 : cuts; const np = proposedPrice(c); const h = hourly(c);
+      curRev += (Number(c.mowPrice) || 0) * units; newRev += np * units;
+      if (h != null) { timed++; const visits = c.frequency === 'monthly' ? units * 4.33 : units; minsSum += c.mowMinutes * visits; revTimed += (Number(c.mowPrice) || 0) * units; if (h < target) below++; }
+      return { id, c, cuts, units, np, h }; }).sort((a, b) => (a.h ?? 1e9) - (b.h ?? 1e9) || (a.c.name || '').localeCompare(b.c.name || ''));
+    const avgH = minsSum ? revTimed / (minsSum / 60) : null;
+    const anyNext = rows.some(([, c]) => c.nextPrice);
+    // projects by service
+    const svc = {}; for (const j of Object.values(S.jobs)) { if (!(Number(j.hours) > 0) || isMowKind(j.kind)) continue; const k = normSvc(j.service); const o = svc[k] || (svc[k] = { rev: 0, hrs: 0, n: 0 }); o.rev += Number(j.amount) || 0; o.hrs += Number(j.hours); o.n++; }
+    const svcRows = Object.entries(svc).map(([k, o]) => [k, o, o.rev / o.hrs]).sort((a, b) => a[2] - b[2]);
+    return `<div class="kpis"><div class="kpi ${avgH != null && avgH < target ? '' : 'hero'}"><span class="label">Mowing $/hour</span><span class="v">${avgH != null ? money0(avgH) : '—'}</span><span class="s">${timed ? `across ${timed} timed lawns` : 'add minutes below to see this'}</span></div>
+      <div class="kpi"><span class="label">Under ${money0(target)}/hr</span><span class="v">${below}</span><span class="s">lawns worth a price review</span></div>
+      <div class="kpi"><span class="label">Next season at new prices</span><span class="v">+${money0(newRev - curRev)}</span><span class="s">${money0(curRev)} → ${money0(newRev)} mowing revenue</span></div></div>
+      <section class="panel"><h3>Lawns by hourly rate <span class="muted">lowest first</span></h3>
+      <div class="toolbar" style="margin-bottom:10px"><button class="btn sm primary" data-act="saveNextPrices">Save these as next season's prices</button>${anyNext ? '<button class="btn sm" data-act="askConfirm">Switch everyone to next season\'s prices now</button>' : ''}</div>
+      ${anyNext ? `<div class="confirm" id="confirmBar" hidden>Make next season's prices the current prices? New mows will use them.<button type="button" class="btn sm danger" data-act="applyNextPrices">Yes, switch</button><button type="button" class="btn sm" data-act="cancelConfirm">Not yet</button></div>` : ''}
+      <div class="tbl-wrap"><table><thead><tr><th>Client</th><th class="r">Now</th><th class="r">Minutes</th><th class="r">$/hr</th><th class="r">New</th><th class="r hide-sm">Season impact</th><th></th></tr></thead><tbody>
+      ${data.map(({ id, c, units, np, h }) => `<tr><td><b>${esc(c.name)}</b><div class="muted small">${FREQ[c.frequency]}${c.nextPrice ? ` · next season ${money0(c.nextPrice)}` : ''}</div></td><td class="r num">${money0(c.mowPrice)}</td>
+        <td class="r"><input class="inp num" style="width:72px;text-align:right" type="number" min="0" step="5" id="min_${id}" data-minutes="${id}" value="${esc(c.mowMinutes || '')}" placeholder="min" aria-label="Minutes for ${esc(c.name)}"></td>
+        <td class="r num">${h == null ? '<span class="muted">—</span>' : `<span class="pill ${h < target * .8 ? 'bad' : h < target ? 'warn' : 'green'}">${money0(h)}</span>`}</td>
+        <td class="r num">${np !== Number(c.mowPrice) ? `<b>${money(np)}</b>` : '<span class="muted">same</span>'}</td><td class="r num hide-sm">${np !== Number(c.mowPrice) ? '+' + money0((np - c.mowPrice) * units) : ''}</td>
+        <td class="r">${(c.nextPrice || np !== Number(c.mowPrice)) ? `<button class="btn sm" data-act="priceMsg" data-id="${id}" data-p="${c.nextPrice || np}">Copy message</button>` : ''}</td></tr>`).join('')}
+      </tbody></table></div></section>
+      <section class="panel"><h3>Projects by hourly rate</h3>${svcRows.length ? `<div class="tbl-wrap"><table><thead><tr><th>Service</th><th class="r">Jobs</th><th class="r">Hours</th><th class="r">Revenue</th><th class="r">$/hr</th></tr></thead><tbody>${svcRows.map(([k, o, h]) => `<tr><td>${esc(k)}</td><td class="r num">${o.n}</td><td class="r num">${r2(o.hrs)}</td><td class="r num">${money0(o.rev)}</td><td class="r"><span class="pill ${h < target * .8 ? 'bad' : h < target ? 'warn' : 'green'}">${money0(h)}</span></td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">Add “hours spent” when you log a job and this shows which services pay best per hour.</div>'}</section>`;
+  }
+};
+function priceMessage(c, p) {
+  const s = settings();
+  return `Hi ${firstName(c.name)},\n\nThank you for trusting ${s.businessName} with your lawn this season. As costs for fuel, equipment and labour have gone up, our rate for ${c.address || 'your property'} will be ${money(p)} per ${c.frequency === 'monthly' ? 'month' : 'cut'} starting next season (currently ${money(c.mowPrice)}).\n\nWe'll keep the same reliable schedule and quality you're used to. Let me know if you have any questions, and I'd love to have you back in the spring.\n\nThanks,\n${s.businessName}${s.phone ? `\n${s.phone}` : ''}`;
+}
+
+// ---------- 5. route + rain ----------
+function routeDialog() {
+  const list = sortedClients().filter(([, c]) => c.active !== false && ['weekly', 'biweekly', 'monthly'].includes(c.frequency)).sort((a, b) => (a[1].route ?? 1e6) - (b[1].route ?? 1e6) || (a[1].name || '').localeCompare(b[1].name || ''));
+  const st = $('#dlgc .dlg-b')?.scrollTop || 0;
+  $('#dlgc').innerHTML = `${dlgHead('Route order')}<div class="dlg-b"><p class="muted small" style="margin:0">Put lawns in the order you drive them. This week's checklist follows this order.</p>
+    <div class="tbl-wrap"><table><tbody>${list.map(([id, c], i) => `<tr><td class="num muted" style="width:32px">${i + 1}</td><td><b>${esc(c.name)}</b><div class="muted small">${esc(c.address && c.address !== c.name ? c.address : '')} · ${FREQ[c.frequency]}${c.bwGroup ? ' ' + c.bwGroup : ''}</div></td><td class="r" style="white-space:nowrap"><button type="button" class="btn sm" data-act="routeMove" data-id="${id}" data-d="-1" aria-label="Move up" ${i ? '' : 'disabled'}>↑</button> <button type="button" class="btn sm" data-act="routeMove" data-id="${id}" data-d="1" aria-label="Move down" ${i < list.length - 1 ? '' : 'disabled'}>↓</button></td></tr>`).join('')}</tbody></table></div></div>
+    <div class="dlg-f"><span class="sp"></span><button type="button" class="btn primary" data-act="closeDlg">Done</button></div>`;
+  const nb = $('#dlgc .dlg-b'); if (nb) nb.scrollTop = st;
+  if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } }
+  return list;
+}
+function routeMove(id, d) {
+  const list = sortedClients().filter(([, c]) => c.active !== false && ['weekly', 'biweekly', 'monthly'].includes(c.frequency)).sort((a, b) => (a[1].route ?? 1e6) - (b[1].route ?? 1e6) || (a[1].name || '').localeCompare(b[1].name || ''));
+  const ids = list.map(([x]) => x); const i = ids.indexOf(id), j = i + d; if (i < 0 || j < 0 || j >= ids.length) return;
+  [ids[i], ids[j]] = [ids[j], ids[i]];
+  ids.forEach((cid, k) => { if (S.clients[cid].route !== k + 1) { const c = clone(S.clients[cid]); c.route = k + 1; put('clients', cid, c); } });
+  routeDialog(); renderBody();
+}
+function rainDay() {
+  const ws = S.weekStart, nx = addDays(ws, 7), sm = weekSummary(ws);
+  const rest = sm.dueList.filter(id => !sm.doc.entries?.[id]); if (!rest.length) return;
+  const before = { a: clone(S.weeks[ws]), b: clone(S.weeks[nx]) };
+  const a = clone(S.weeks[ws]) || { entries: {} }; a.entries = a.entries || {}; a.moved = [...new Set([...(a.moved || []), ...rest])];
+  const b = clone(S.weeks[nx]) || { entries: {} }; b.entries = b.entries || {}; b.carry = [...new Set([...(b.carry || []), ...rest])];
+  put('weeks', ws, a); put('weeks', nx, b); renderBody();
+  toast(`${rest.length} lawns moved to next week`, false, () => { before.a ? put('weeks', ws, before.a) : del('weeks', ws); before.b ? put('weeks', nx, before.b) : del('weeks', nx); renderBody(); });
+}
+
+// ---------- 6. tax summary ----------
+const TAX_LINE = { 'Fuel': 'Fuel costs (except motor vehicles)', 'Labour': 'Salaries, wages and benefits', 'Supplies': 'Supplies', 'Equipment': 'Capital cost allowance (equipment)', 'Equipment maintenance': 'Maintenance and repairs', 'Vehicle': 'Motor vehicle expenses', 'Marketing': 'Advertising', 'Insurance': 'Insurance', 'Dump fees': 'Other expenses', 'Phone & software': 'Telephone and utilities', 'Other': 'Other expenses' };
+function taxData(Y) {
+  const rev = revenueEntries().filter(e => yearOf(e.date) === Y).reduce((a, e) => a + e.amount, 0);
+  const hst = Object.values(S.invoices).filter(d => yearOf(d.date) === Y).reduce((a, d) => a + docTotal(d).tax, 0);
+  const lines = {}; for (const x of Object.values(S.expenses)) if (yearOf(x.date) === Y) { const k = TAX_LINE[x.category] || 'Other expenses'; lines[k] = (lines[k] || 0) + (Number(x.amount) || 0); }
+  const exp = Object.values(lines).reduce((a, v) => a + v, 0);
+  return { rev, hst, lines: Object.entries(lines).sort((a, b) => b[1] - a[1]), exp, net: rev - exp };
+}
+function taxPanel() {
+  const t = taxData(S.year);
+  return `<section class="panel"><h3>${S.year} tax summary <span class="muted">for your T2125</span></h3><div class="tbl-wrap"><table><tbody>
+    <tr><td><b>Gross business income</b></td><td class="r num"><b>${money(t.rev)}</b></td></tr>
+    ${t.hst ? `<tr><td>HST collected on invoices</td><td class="r num">${money(t.hst)}</td></tr>` : ''}
+    ${t.lines.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="r num">${money(v)}</td></tr>`).join('')}
+    <tr><td><b>Total expenses</b></td><td class="r num"><b>${money(t.exp)}</b></td></tr>
+    <tr><td><b>Net income before tax</b></td><td class="r num"><b>${money(t.net)}</b></td></tr></tbody></table></div>
+    <p class="small muted" style="margin:10px 0">These are the usual T2125 categories for your expenses. Equipment over a few hundred dollars is normally claimed as capital cost allowance over several years, not all at once. Have an accountant confirm before you file.</p>
+    <button class="btn sm" data-act="csvTax">Download tax summary (.csv)</button></section>`;
+}
+
+// ---------- 8. crew ----------
+VIEWS.crew = {
+  shell: () => `<div class="vhead"><h2>Crew</h2><div class="toolbar"><button class="btn" data-act="newWorker">+ Add worker</button><button class="btn primary" data-act="newShift">+ Log hours</button></div></div>`,
+  body() {
+    const ws = Object.entries(S.crew).sort((a, b) => (a[1].name || '').localeCompare(b[1].name || ''));
+    const sh = Object.entries(S.shifts).sort((a, b) => (b[1].date || '').localeCompare(a[1].date || ''));
+    const pay = x => (Number(x.hours) || 0) * (Number(x.rate) || 0);
+    const unpaid = sh.filter(([, x]) => !x.paid); const owed = unpaid.reduce((a, [, x]) => a + pay(x), 0);
+    const ym = today().slice(0, 7); const hrsM = sh.filter(([, x]) => (x.date || '').startsWith(ym)).reduce((a, [, x]) => a + (Number(x.hours) || 0), 0);
+    const ytd = sh.filter(([, x]) => yearOf(x.date) === S.year).reduce((a, [, x]) => a + pay(x), 0);
+    if (!ws.length) return `<section class="panel"><div class="empty">Add the people who work with you, then log their hours here. When you pay them, the wages go into Expenses on their own.</div></section>`;
+    return `<div class="kpis"><div class="kpi hero"><span class="label">Wages owed</span><span class="v">${money0(owed)}</span><span class="s">${unpaid.length} unpaid shift${unpaid.length === 1 ? '' : 's'}</span></div><div class="kpi"><span class="label">Hours this month</span><span class="v">${r2(hrsM)}</span><span class="s">${MONTHS_L[new Date().getMonth()]}</span></div><div class="kpi"><span class="label">Wages logged ${S.year}</span><span class="v">${money0(ytd)}</span><span class="s">from shifts in this app</span></div></div>
+    <section class="panel"><h3>Workers</h3><div class="tbl-wrap"><table><thead><tr><th>Name</th><th class="r">Rate</th><th class="r">Unpaid hours</th><th class="r">Owed</th><th></th></tr></thead><tbody>
+      ${ws.map(([id, w]) => { const u = unpaid.filter(([, x]) => x.workerId === id); const o = u.reduce((a, [, x]) => a + pay(x), 0); const h = u.reduce((a, [, x]) => a + (Number(x.hours) || 0), 0);
+        return `<tr class="click" data-act="openWorker" data-id="${id}"><td><b>${esc(w.name)}</b>${w.active === false ? ' <span class="pill">Inactive</span>' : ''}<div class="muted small">${esc(w.phone || '')}</div></td><td class="r num">${money(w.rate)}/h</td><td class="r num">${r2(h)}</td><td class="r num">${o ? `<b>${money(o)}</b>` : '<span class="muted">—</span>'}</td><td class="r">${o ? `<button class="btn sm primary" data-act="payWorker" data-id="${id}">Pay ${money0(o)}</button>` : ''}</td></tr>`; }).join('')}
+    </tbody></table></div></section>
+    <section class="panel"><h3>Shifts</h3>${sh.length ? `<div class="tbl-wrap"><table><tbody>${sh.slice(0, 200).map(([id, x]) => `<tr class="click" data-act="openShift" data-id="${id}"><td class="muted num" style="white-space:nowrap">${fmtDate(x.date)}</td><td>${esc(S.crew[x.workerId]?.name || 'Worker')}<div class="muted small">${esc(x.notes || '')}</div></td><td class="r num">${r2(x.hours)} h</td><td class="r num">${money(pay(x))}</td><td>${x.paid ? '<span class="pill green">Paid</span>' : '<span class="pill warn">Owed</span>'}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">No hours logged yet.</div>'}</section>`;
+  }
+};
+function workerDialog(id) {
+  const w = id ? S.crew[id] : { name: '', rate: '', phone: '', active: true };
+  openDlg(`${dlgHead(id ? esc(w.name) : 'Add worker')}<form id="wForm" class="dlg" style="max-height:none"><div class="dlg-b"><div class="fields">
+    <label class="field"><span>Name</span><input class="inp" id="w_name" required value="${esc(w.name)}"></label>
+    <label class="field"><span>Hourly rate ($)</span><input class="inp" id="w_rate" type="number" step="0.25" min="0" required value="${esc(w.rate)}"></label>
+    <label class="field"><span>Phone</span><input class="inp" id="w_phone" value="${esc(w.phone)}"></label>
+    <label class="field"><span>&nbsp;</span><span class="check"><input type="checkbox" id="w_active" ${w.active !== false ? 'checked' : ''}> Active</span></label></div>
+    ${id ? confirmBar('Delete this worker? Their logged shifts stay.', 'delWorker', id) : ''}</div>
+    <div class="dlg-f">${id ? '<button type="button" class="btn danger sp" data-act="askConfirm">Delete</button>' : '<span class="sp"></span>'}<button type="button" class="btn" data-act="closeDlg">Cancel</button><button class="btn primary">${id ? 'Save' : 'Add worker'}</button></div></form>`);
+  $('#wForm').addEventListener('submit', e => { e.preventDefault(); put('crew', id || uid('w'), { name: $('#w_name').value.trim(), rate: r2($('#w_rate').value), phone: $('#w_phone').value.trim(), active: $('#w_active').checked }); closeDlg(); toast('Saved'); renderBody(); });
+}
+function shiftDialog(id) {
+  const act = Object.entries(S.crew).filter(([, w]) => w.active !== false);
+  if (!act.length && !id) { toast('Add a worker first.', true); return; }
+  const x = id ? S.shifts[id] : { date: today(), workerId: act[0][0], hours: '', rate: act[0][1].rate, notes: '', paid: false };
+  openDlg(`${dlgHead(id ? 'Edit shift' : 'Log hours')}<form id="sForm" class="dlg" style="max-height:none"><div class="dlg-b"><div class="fields">
+    <label class="field"><span>Worker</span><select class="inp" id="s_w">${Object.entries(S.crew).map(([wid, w]) => `<option value="${wid}" ${wid === x.workerId ? 'selected' : ''}>${esc(w.name)}</option>`).join('')}</select></label>
+    <label class="field"><span>Date</span><input class="inp" id="s_date" type="date" required value="${esc(x.date)}"></label>
+    <label class="field"><span>Hours</span><input class="inp" id="s_hours" type="number" step="0.25" min="0" required value="${esc(x.hours)}"></label>
+    <label class="field"><span>Rate ($/h)</span><input class="inp" id="s_rate" type="number" step="0.25" min="0" value="${esc(x.rate)}"></label>
+    <label class="field wide"><span>Notes</span><input class="inp" id="s_notes" value="${esc(x.notes)}" placeholder="e.g. Fall cleanups on Sylvan"></label></div>
+    ${x.paid ? '<p class="small muted">Already paid. Changing it here does not change the wage expense.</p>' : ''}
+    ${id ? confirmBar('Delete this shift?', 'delShift', id) : ''}</div>
+    <div class="dlg-f">${id ? '<button type="button" class="btn danger sp" data-act="askConfirm">Delete</button>' : '<span class="sp"></span>'}<button type="button" class="btn" data-act="closeDlg">Cancel</button><button class="btn primary">${id ? 'Save' : 'Log hours'}</button></div></form>`);
+  $('#s_w').addEventListener('change', () => { if (!id) $('#s_rate').value = S.crew[$('#s_w').value]?.rate || ''; });
+  $('#sForm').addEventListener('submit', e => { e.preventDefault(); put('shifts', id || uid('s'), Object.assign({}, clone(x), { workerId: $('#s_w').value, date: $('#s_date').value, hours: Number($('#s_hours').value) || 0, rate: r2($('#s_rate').value), notes: $('#s_notes').value.trim() })); closeDlg(); toast(id ? 'Shift saved' : 'Hours logged'); renderBody(); });
+}
+function payWorker(wid) {
+  const w = S.crew[wid]; const u = Object.entries(S.shifts).filter(([, x]) => x.workerId === wid && !x.paid); if (!u.length) return;
+  const hrs = u.reduce((a, [, x]) => a + (Number(x.hours) || 0), 0), amt = r2(u.reduce((a, [, x]) => a + (Number(x.hours) || 0) * (Number(x.rate) || 0), 0));
+  const eid = uid('e'); put('expenses', eid, { date: today(), category: 'Labour', description: `Wages — ${w.name} (${u.length} shift${u.length === 1 ? '' : 's'}, ${r2(hrs)} h)`, amount: amt });
+  u.forEach(([sid, x]) => put('shifts', sid, Object.assign(clone(x), { paid: true, paidOn: today(), expenseId: eid })));
+  renderBody();
+  toast(`Paid ${w.name} ${money(amt)} · added to expenses`, false, () => { del('expenses', eid); u.forEach(([sid, x]) => put('shifts', sid, clone(x))); renderBody(); });
+}
+
+// ---------- 7. receipts ----------
+let ASSETS = null; claude.use('assets').then(a => { ASSETS = a; }).catch(() => {});
+const receiptSrc = id => window.__receiptSrc ? window.__receiptSrc(id) : '/_blob/' + id;
+const RECEIPT_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp', 'application/pdf'];
+
+// ---------- More menu (phone) ----------
+function moreDialog() {
+  const items = [['jobs', 'Jobs', 'Every job and mow, paid or unpaid'], ['costs', 'Expenses', 'Costs, receipts and your tax summary'], ['pricing', 'Pricing', 'Hourly rates and next season\'s prices'], ['crew', 'Crew', 'Hours and wages'], ['settings', 'Settings', 'Business details, goals and backups']];
+  openDlg(`${dlgHead('More')}<div class="dlg-b"><div class="lawns">${items.map(([v, l, d]) => `<button type="button" class="lawn" data-go="${v}" style="grid-template-columns:minmax(0,1fr) auto;text-align:left"><span class="who"><b>${l}</b><span>${d}</span></span><span aria-hidden="true">›</span></button>`).join('')}</div></div>`);
+}
+
+// ---------- week planning: which lawns on which day (business side) ----------
+const DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const DOW_L = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const dowOf = d => (parse(d).getDay() + 6) % 7;
+const weekPlan = ws => S.weekplans[ws] || { days: {}, focus: '' };
+function savePlan(ws, p) { S.weekplans[ws] = p; save(`weekplans/${ws}`, p); }
+function weekMoney(ws) { const we = addDays(ws, 6); return revenueEntries().filter(e => e.date >= ws && e.date <= we).reduce((a, e) => a + e.amount, 0); }
+let WP = null;
+function planWeekDialog(ws) { WP = { ws, p: clone(weekPlan(ws)) }; WP.p.days = WP.p.days || {}; renderWP(); if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } } }
+function renderWP() {
+  const ws = WP.ws, sm = weekSummary(ws), list = sm.dueList.concat(sm.notDue.filter(id => WP.p.days[id] != null)), goal = Number(S.settings.weeklyGoal) || 0;
+  const perDay = DOW.map((_, i) => list.filter(id => Number(WP.p.days[id]) === i && WP.p.days[id] != null));
+  $('#dlgc').innerHTML = `${dlgHead(`Plan the week of ${fmtDate(ws)}`)}<div class="dlg-b">
+    <div class="statgrid">${DOW.map((dn, i) => `<div class="stat"><span class="label">${dn}</span><b>${perDay.at(i).length}</b><span class="small muted">${money0(perDay.at(i).reduce((a, id) => a + (Number(S.clients[id].mowPrice) || 0), 0))}</span></div>`).join('')}</div>
+    <div class="toolbar"><span class="small muted">Auto-fill in route order across:</span>${[[[0, 1, 3, 4], 'Mon, Tue, Thu, Fri'], [[0, 1, 3], 'Mon, Tue, Thu'], [[0, 3], 'Mon & Thu']].map(([ds, l]) => `<button type="button" class="btn sm" data-act="wpAuto" data-v="${ds.join(',')}">${l}</button>`).join('')}<button type="button" class="btn sm" data-act="wpClear">Clear</button></div>
+    ${list.length ? `<div class="tbl-wrap"><table><tbody>${list.map(id => { const c = S.clients[id]; return `<tr><td><b>${esc(c.name)}</b><div class="muted small">${esc(c.address && c.address !== c.name ? c.address : '')} · ${money0(c.mowPrice)}</div></td><td class="r"><select class="inp" style="width:auto" data-wpday="${id}"><option value="">No day</option>${DOW.map((dn, i) => `<option value="${i}" ${WP.p.days[id] != null && Number(WP.p.days[id]) === i ? 'selected' : ''}>${dn}</option>`).join('')}</select></td></tr>`; }).join('')}</tbody></table></div>` : '<div class="empty">No lawns due this week.</div>'}
+    <div class="fields"><label class="field"><span>This week's focus</span><input class="inp" id="wp_focus" value="${esc(WP.p.focus || weekPlan(addDays(ws, -7)).review?.nextFocus || '')}" placeholder="e.g. Book 5 fall cleanups"></label>
+    <label class="field"><span>Weekly money goal ($)</span><input class="inp" id="wp_goal" type="number" min="0" step="50" value="${esc(goal || '')}" placeholder="e.g. 1500"></label></div>
+  </div><div class="dlg-f"><span class="sp"></span><button type="button" class="btn" data-act="closeDlg">Cancel</button><button type="button" class="btn primary" data-act="wpSave">Save week</button></div>`;
+}
+document.addEventListener('change', e => { if (WP && e.target.dataset?.wpday) { const v = e.target.value; if (v === '') delete WP.p.days[e.target.dataset.wpday]; else WP.p.days[e.target.dataset.wpday] = Number(v); WP.p.focus = $('#wp_focus')?.value ?? WP.p.focus; const st = $('#dlgc .dlg-b')?.scrollTop; renderWP(); const nb = $('#dlgc .dlg-b'); if (nb) nb.scrollTop = st; } });
+
+// ---------- quote calculator ----------
+const DIFF = [['easy', 'Easy', -0.1], ['normal', 'Normal', 0], ['hard', 'Hard', 0.15], ['vhard', 'Very hard', 0.3]];
+const calcRates = () => Object.assign({ rate: Number(settings().targetRate) || 60, wage: 20, markup: 20, minimum: 100, fuel: 10, travelMin: 20, round: 5, premium: 15 }, S.settings.calc || {});
+let CALC = null;
+function calcDialog(preset) {
+  CALC = Object.assign({ client: '', service: 'Fall cleanup', crew: 2, hours: 3, travelMin: calcRates().travelMin, materials: [], dump: 0, rental: 0, diff: 'normal', detail: false }, preset || {});
+  renderCalc(); if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } }
+}
+function pastFor(service) {
+  const k = normSvc(service); const js = Object.values(S.jobs).filter(j => !isMowKind(j.kind) && normSvc(j.service) === k && Number(j.amount) > 0);
+  if (!js.length) return null;
+  const a = js.map(j => Number(j.amount)).sort((x, y) => x - y); const hrs = js.filter(j => Number(j.hours) > 0);
+  return { n: a.length, min: a[0], max: a.at(-1), avg: a.reduce((s, v) => s + v, 0) / a.length, med: a.at(Math.floor(a.length / 2)), perHour: hrs.length ? hrs.reduce((s, j) => s + Number(j.amount), 0) / hrs.reduce((s, j) => s + Number(j.hours), 0) : null, recent: js.sort((x, y) => (y.date || '').localeCompare(x.date || '')).slice(0, 3) };
+}
+function calcResult() {
+  const R = calcRates(), c = CALC; const crew = Math.max(1, Number(c.crew) || 1), hrs = Math.max(0, Number(c.hours) || 0), travel = Math.max(0, Number(c.travelMin) || 0) / 60;
+  const crewHours = crew * hrs + crew * travel;
+  const labour = crewHours * R.rate;
+  const matCost = c.materials.reduce((s, m) => s + (Number(m.cost) || 0), 0); const matPrice = matCost * (1 + R.markup / 100);
+  const pass = (Number(c.dump) || 0) + (Number(c.rental) || 0);
+  const diffPct = (DIFF.find(d => d[0] === c.diff) || DIFF[1])[2];
+  let raw = (labour + matPrice + pass + R.fuel) * (1 + diffPct);
+  const roundUp = v => R.round ? Math.ceil(v / R.round) * R.round : r2(v);
+  const rec = Math.max(R.minimum, roundUp(raw));
+  const helperWages = Math.max(0, crew - 1) * (hrs + travel) * R.wage;
+  const cost = helperWages + matCost + pass + R.fuel;
+  const ownerHours = hrs + travel;
+  const profit = rec - cost;
+  const floor = Math.max(R.minimum, roundUp(cost + ownerHours * R.rate * 0.75));
+  const premium = roundUp(rec * (1 + R.premium / 100));
+  return { R, crewHours, labour, matCost, matPrice, pass, diffPct, raw, rec, floor, premium, helperWages, cost, profit, ownerHours, ownerRate: ownerHours ? profit / ownerHours : 0, margin: rec ? profit / rec : 0 };
+}
+function renderCalc() {
+  const c = CALC, R = calcRates();
+  $('#dlgc').innerHTML = `${dlgHead('Quote calculator')}<div class="dlg-b" id="calcForm">
+    <div class="fields"><label class="field"><span>Client (optional)</span><input class="inp" id="qc_client" list="clientList" value="${esc(c.client)}" placeholder="Name or address">${clientDatalist()}</label>
+    <label class="field"><span>Service</span><input class="inp" id="qc_service" list="svcList" value="${esc(c.service)}">${svcDatalist()}</label>
+    <label class="field"><span>Crew size (incl. you)</span><input class="inp num" id="qc_crew" type="number" min="1" step="1" value="${esc(c.crew)}"></label>
+    <label class="field"><span>Hours on site</span><input class="inp num" id="qc_hours" type="number" min="0" step="0.25" value="${esc(c.hours)}"></label>
+    <label class="field"><span>Travel + setup (minutes)</span><input class="inp num" id="qc_travel" type="number" min="0" step="5" value="${esc(c.travelMin)}"></label>
+    <label class="field"><span>Dump / disposal fees ($)</span><input class="inp num" id="qc_dump" type="number" min="0" step="1" value="${esc(c.dump)}"></label>
+    <label class="field"><span>Equipment rental ($)</span><input class="inp num" id="qc_rental" type="number" min="0" step="1" value="${esc(c.rental)}"></label>
+    <div class="field"><span>Difficulty</span><div class="seg" role="group" aria-label="Difficulty">${DIFF.map(([k, l, p]) => `<button type="button" data-act="qcDiff" data-v="${k}" aria-pressed="${c.diff === k}">${l}${p ? ` ${p > 0 ? '+' : ''}${Math.round(p * 100)}%` : ''}</button>`).join('')}</div></div></div>
+    <div><span class="label">Materials (your cost, before markup)</span><div id="qcMats" class="bedit" style="margin-top:6px">${c.materials.map((m, i) => `<div class="brow" style="grid-template-columns:minmax(0,1fr) 110px 32px" data-mi="${i}"><input class="inp" data-mk="desc" value="${esc(m.desc)}" placeholder="e.g. 8 yards black mulch" aria-label="Material"><input class="inp num" data-mk="cost" type="number" min="0" step="1" value="${esc(m.cost)}" placeholder="$" aria-label="Cost"><button type="button" class="btn ghost sm" data-act="qcRmMat" data-i="${i}" aria-label="Remove">✕</button></div>`).join('')}</div><button type="button" class="btn sm" data-act="qcAddMat" style="margin-top:6px">+ Add material</button></div>
+    <div id="qcOut"></div>
+    <details><summary class="small muted" style="cursor:pointer">Your pricing rates</summary><div class="fields" style="margin-top:10px">
+      <label class="field"><span>Charge per crew-hour ($)</span><input class="inp num" id="qr_rate" type="number" min="1" value="${esc(R.rate)}"></label>
+      <label class="field"><span>Helper wage per hour ($)</span><input class="inp num" id="qr_wage" type="number" min="0" value="${esc(R.wage)}"></label>
+      <label class="field"><span>Materials markup (%)</span><input class="inp num" id="qr_markup" type="number" min="0" value="${esc(R.markup)}"></label>
+      <label class="field"><span>Minimum job charge ($)</span><input class="inp num" id="qr_minimum" type="number" min="0" value="${esc(R.minimum)}"></label>
+      <label class="field"><span>Fuel per job ($)</span><input class="inp num" id="qr_fuel" type="number" min="0" value="${esc(R.fuel)}"></label>
+      <label class="field"><span>Round prices up to ($)</span><input class="inp num" id="qr_round" type="number" min="0" value="${esc(R.round)}"></label>
+      <div class="field wide"><button type="button" class="btn sm" data-act="qcSaveRates" style="justify-self:start">Save rates</button></div></div></details>
+  </div><div class="dlg-f"><label class="check small sp"><input type="checkbox" id="qc_detail" ${c.detail ? 'checked' : ''}> Show breakdown on the quote</label><button type="button" class="btn" data-act="closeDlg">Close</button><button type="button" class="btn primary" data-act="qcQuote">Create quote</button></div>`;
+  renderCalcOut();
+}
+function readCalc() {
+  const v = id => $('#' + id)?.value;
+  Object.assign(CALC, { client: v('qc_client') ?? CALC.client, service: v('qc_service') ?? CALC.service, crew: v('qc_crew'), hours: v('qc_hours'), travelMin: v('qc_travel'), dump: v('qc_dump'), rental: v('qc_rental'), detail: !!$('#qc_detail')?.checked });
+  CALC.materials = [...document.querySelectorAll('#qcMats [data-mi]')].map(row => ({ desc: row.querySelector('[data-mk="desc"]').value, cost: row.querySelector('[data-mk="cost"]').value }));
+}
+function renderCalcOut() {
+  const r = calcResult(), p = pastFor(CALC.service), R = r.R;
+  const vs = p ? (r.rec < p.min ? 'below everything you\'ve charged for this before' : r.rec > p.max ? 'above your past range, so double-check the hours' : 'within your past range') : '';
+  $('#qcOut').innerHTML = `<div class="statgrid">
+      <div class="stat"><span class="label">Don't go below</span><b>${money0(r.floor)}</b><span class="small muted">covers costs + your time at 75%</span></div>
+      <div class="stat" style="background:var(--accent);color:var(--accent-ink)"><span class="label" style="color:inherit;opacity:.85">Recommended</span><b>${money0(r.rec)}</b><span class="small" style="opacity:.85">${money0(r.ownerRate)}/hr for you</span></div>
+      <div class="stat"><span class="label">Premium</span><b>${money0(r.premium)}</b><span class="small muted">rush, picky client, high demand</span></div></div>
+    <div class="tbl-wrap"><table><tbody>
+      <tr><td>Labour: ${r2(r.crewHours)} crew-hours × ${money0(R.rate)}</td><td class="r num">${money(r.labour)}</td></tr>
+      ${r.matCost ? `<tr><td>Materials ${money(r.matCost)} + ${R.markup}% markup</td><td class="r num">${money(r.matPrice)}</td></tr>` : ''}
+      ${r.pass ? `<tr><td>Disposal and rental (at cost)</td><td class="r num">${money(r.pass)}</td></tr>` : ''}
+      <tr><td>Fuel</td><td class="r num">${money(R.fuel)}</td></tr>
+      ${r.diffPct ? `<tr><td>Difficulty ${r.diffPct > 0 ? '+' : ''}${Math.round(r.diffPct * 100)}%</td><td class="r num">${money(r.raw - r.raw / (1 + r.diffPct))}</td></tr>` : ''}
+      <tr><td class="muted">Your costs: helper wages ${money0(r.helperWages)} + materials, disposal, fuel</td><td class="r num muted">−${money(r.cost)}</td></tr>
+      <tr><td><b>Profit at recommended price</b> <span class="muted">(${Math.round(r.margin * 100)}% margin)</span></td><td class="r num"><b>${money(r.profit)}</b></td></tr>
+    </tbody></table></div>
+    ${p ? `<p class="small" style="margin:0"><b>Your history:</b> ${p.n} past job${p.n === 1 ? '' : 's'} in ${esc(normSvc(CALC.service).toLowerCase())}, ${money0(p.min)}–${money0(p.max)}, typically ${money0(p.med)}${p.perHour ? `, about ${money0(p.perHour)}/hr where you logged hours` : ''}. This quote is <b>${vs}</b>.</p>` : '<p class="small muted" style="margin:0">No past jobs for this service yet, so there\'s nothing to compare against.</p>'}`;
+}
+document.addEventListener('input', e => { if (CALC && dlg.open && e.target.closest('#calcForm') && !e.target.id?.startsWith('qr_')) { readCalc(); renderCalcOut(); } });
+function calcToQuote() {
+  readCalc(); const r = calcResult(), c = CALC; const cid = findClientByLabel(c.client); const cl = S.clients[cid] || {};
+  let items;
+  if (c.detail) {
+    items = [{ desc: `${c.service}: labour (${r2(r.crewHours)} crew-hours)`, qty: 1, rate: r2(r.labour * (1 + r.diffPct)) }];
+    c.materials.filter(m => Number(m.cost) > 0).forEach(m => items.push({ desc: m.desc || 'Materials', qty: 1, rate: r2(Number(m.cost) * (1 + r.R.markup / 100) * (1 + r.diffPct)) }));
+    if (r.pass) items.push({ desc: 'Disposal and equipment', qty: 1, rate: r2(r.pass * (1 + r.diffPct)) });
+    const sum = items.reduce((s, it) => s + it.rate, 0); const adj = r2(r.rec - sum); if (Math.abs(adj) >= 0.01) items.push({ desc: 'Travel, fuel and setup', qty: 1, rate: adj });
+  } else items = [{ desc: c.service, qty: 1, rate: r.rec }];
+  docDialog('quotes', null, { clientId: cid || '', clientName: cl.name || c.client, address: cl.address || '', items, notes: c.materials.filter(m => m.desc).length && !c.detail ? `Includes ${c.materials.filter(m => m.desc).map(m => m.desc).join(', ')}.` : '' });
+}
+
+// ---------- full backup / restore ----------
+const BACKUP_COLLS = ['clients', 'jobs', 'weeks', 'expenses', 'quotes', 'invoices', 'crew', 'shifts', 'weekplans'];
+function fullBackup() { const out = { app: 'bnb-hq', version: 1, exportedAt: new Date().toISOString(), collections: {} }; BACKUP_COLLS.forEach(c => out.collections[c] = clone(S[c])); out.collections.settings = { business: clone(S.settings) }; return out; }
+async function restoreBackup(obj) {
+  if (!obj || !obj.collections) { toast('That file isn\'t a B&B CO. HQ backup.', true); return; }
+  const jobs = []; for (const [c, docs] of Object.entries(obj.collections)) { if (![...BACKUP_COLLS, 'settings'].includes(c)) continue; for (const [id, d] of Object.entries(docs || {})) if (d && typeof d === 'object') jobs.push([c, id, d]); }
+  let done = 0, failed = 0; toast(`Restoring ${jobs.length} records…`);
+  const worker = async () => { while (jobs.length) { const [c, id, d] = jobs.shift(); try { await S.db.doc(`${c}/${id}`).set(d); } catch (e) { failed++; } done++; if (done % 25 === 0) toast(`Restored ${done} records…`); } };
+  await Promise.all([worker(), worker(), worker(), worker()]);
+  toast(failed ? `Restored ${done - failed} records, ${failed} failed. Try again.` : `Restored ${done} records`, !!failed);
+}
+
+// ---------- passcode lock ----------
+const LOCK = { entry: '', fails: 0, until: 0, last: Date.now(), busy: false };
+const lockOn = () => !!(S.settings.pin && S.settings.pin.hash);
+const lockMins = () => Number(S.settings.pin?.mins ?? 5);
+async function sha(str) { try { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); } catch (e) { let h = 7; for (const ch of str) h = (h * 31 + ch.charCodeAt(0)) | 0; return 'x' + h; } }
+function touchActive() { LOCK.last = Date.now(); try { sessionStorage.setItem('bnb.lastActive', String(LOCK.last)); } catch (e) {} }
+function isLocked() { return !$('#lock').hidden; }
+function renderDots() { document.querySelectorAll('#lockDots i').forEach((d, i) => d.classList.toggle('on', i < LOCK.entry.length)); }
+function showLock() { if (!lockOn()) return; if (dlg.open) closeDlg(); LOCK.entry = ''; renderDots(); $('#lockMsg').textContent = 'Enter your passcode'; $('#lock').hidden = false; document.documentElement.style.overflow = 'hidden'; }
+function hideLock() { $('#lock').hidden = true; document.documentElement.style.overflow = ''; touchActive(); }
+function updateLockBtn() { $('#lockBtn').hidden = !lockOn(); }
+function initLock() {
+  updateLockBtn(); if (!lockOn()) return;
+  let last = 0; try { last = Number(sessionStorage.getItem('bnb.lastActive') || 0); } catch (e) {}
+  const m = lockMins();
+  if (!last || m === 0 || Date.now() - last > m * 60000) showLock(); else LOCK.last = last;
+}
+async function pressKey(k) {
+  if (LOCK.busy) return;
+  if (Date.now() < LOCK.until) return;
+  if (k === 'del') { LOCK.entry = LOCK.entry.slice(0, -1); renderDots(); return; }
+  if (LOCK.entry.length >= 4) return;
+  LOCK.entry += k; renderDots();
+  if (LOCK.entry.length < 4) return;
+  LOCK.busy = true;
+  const ok = (await sha(S.settings.pin.salt + LOCK.entry)) === S.settings.pin.hash;
+  LOCK.busy = false;
+  if (ok) { LOCK.fails = 0; hideLock(); return; }
+  LOCK.fails++; LOCK.entry = '';
+  const dots = $('#lockDots'); dots.classList.remove('shake'); void dots.offsetWidth; dots.classList.add('shake'); setTimeout(renderDots, 250);
+  if (LOCK.fails >= 5) {
+    LOCK.until = Date.now() + 30000; LOCK.fails = 0; document.querySelectorAll('#keypad button').forEach(b => b.disabled = true);
+    const tick = () => { const left = Math.ceil((LOCK.until - Date.now()) / 1000); if (left <= 0) { $('#lockMsg').textContent = 'Enter your passcode'; document.querySelectorAll('#keypad button').forEach(b => b.disabled = false); return; } $('#lockMsg').textContent = `Too many tries. Wait ${left}s`; setTimeout(tick, 500); }; tick();
+  } else $('#lockMsg').textContent = 'Wrong passcode, try again';
+}
+$('#lock').addEventListener('click', e => { const b = e.target.closest('[data-key]'); if (b) pressKey(b.dataset.key); });
+document.addEventListener('keydown', e => { if (!isLocked()) return; if (/^[0-9]$/.test(e.key)) { e.preventDefault(); pressKey(e.key); } else if (e.key === 'Backspace') { e.preventDefault(); pressKey('del'); } }, true);
+['pointerdown', 'keydown', 'scroll'].forEach(ev => document.addEventListener(ev, () => { if (!isLocked() && Date.now() - LOCK.last > 5000) touchActive(); }, { passive: true, capture: true }));
+setInterval(() => { if (lockOn() && !isLocked() && lockMins() > 0 && Date.now() - LOCK.last > lockMins() * 60000) showLock(); }, 15000);
+document.addEventListener('visibilitychange', () => { if (!lockOn() || isLocked()) return; if (document.visibilityState === 'hidden' && lockMins() === 0) showLock(); else if (document.visibilityState === 'visible' && lockMins() > 0 && Date.now() - LOCK.last > lockMins() * 60000) showLock(); });
+const MINS = [[0, 'Every time I leave the app'], [1, 'After 1 minute'], [5, 'After 5 minutes'], [15, 'After 15 minutes'], [60, 'After 1 hour']];
+function pinPanel() {
+  const on = lockOn();
+  const minsSel = id => `<select class="inp" id="${id}">${MINS.map(([v, l]) => `<option value="${v}" ${lockMins() === v ? 'selected' : ''}>${l}</option>`).join('')}</select>`;
+  const pinIn = (id, label) => `<label class="field"><span>${label}</span><input class="inp num" id="${id}" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="••••"></label>`;
+  return `<section class="panel"><h3>Passcode lock ${on ? '<span class="pill green">On</span>' : '<span class="pill">Off</span>'}</h3>
+    <p class="muted small" style="margin:0 0 12px">${on ? 'The app asks for your 4-digit passcode when you open it and after it sits unused. Use the lock button at the top to lock it right away.' : 'Ask for a 4-digit passcode when the app opens, so someone holding your unlocked phone or laptop can\'t see your business data.'}</p>
+    ${on && !S.f.pinChange ? `<div class="pinrow"><label class="field" style="width:220px"><span>Lock</span>${minsSel('pinMinsOn')}</label><button class="btn" data-act="pinChange">Change passcode</button><button class="btn" data-act="lockNow">Lock now</button></div>
+      <div class="pinrow" style="margin-top:12px">${pinIn('pinCur', 'Current passcode')}<button class="btn danger" data-act="pinOff">Turn passcode off</button></div>`
+    : `<div class="pinrow">${on ? pinIn('pinCur', 'Current passcode') : ''}${pinIn('pin1', on ? 'New passcode' : 'Choose a passcode')}${pinIn('pin2', 'Type it again')}<label class="field" style="width:220px"><span>Lock</span>${minsSel('pinMins')}</label><button class="btn primary" data-act="pinSet">${on ? 'Save new passcode' : 'Turn on passcode'}</button>${on ? '<button class="btn" data-act="pinCancel">Cancel</button>' : ''}</div>`}
+    <p class="small muted" style="margin:12px 0 0">This is a privacy screen on top of your Claude sign-in, not bank-level security.</p></section>`;
+}
+async function pinSet() {
+  const a = $('#pin1').value, b = $('#pin2').value;
+  if (lockOn()) { const cur = $('#pinCur').value; if ((await sha(S.settings.pin.salt + cur)) !== S.settings.pin.hash) { toast('Your current passcode is not right.', true); return; } }
+  if (!/^\d{4}$/.test(a)) { toast('Use exactly 4 digits.', true); return; }
+  if (a !== b) { toast('The two passcodes don\'t match.', true); return; }
+  const salt = Math.random().toString(36).slice(2, 12);
+  const data = Object.assign({}, S.settings, { pin: { hash: await sha(salt + a), salt, mins: Number($('#pinMins').value) } });
+  S.settings = data; save('settings/business', data); S.f.pinChange = false; touchActive(); updateLockBtn(); renderShell(); toast('Passcode is on');
+}
+async function pinOff() {
+  const cur = $('#pinCur').value;
+  if ((await sha(S.settings.pin.salt + cur)) !== S.settings.pin.hash) { toast('Enter your current passcode to turn it off.', true); return; }
+  const data = clone(S.settings); delete data.pin; S.settings = data; save('settings/business', data); updateLockBtn(); renderShell(); toast('Passcode is off');
+}
+document.addEventListener('change', e => { if (e.target.id === 'pinMinsOn' && lockOn()) { const data = Object.assign({}, S.settings, { pin: Object.assign({}, S.settings.pin, { mins: Number(e.target.value) }) }); S.settings = data; save('settings/business', data); touchActive(); toast('Saved'); } });
+
+// ---------- events ----------
+document.addEventListener('click', async e => {
+  const nav = e.target.closest('[data-go]'); if (nav) { go(nav.dataset.go); return; }
+  const seg = e.target.closest('[data-seg]');
+  if (seg) { S.f[seg.dataset.seg] = seg.dataset.v; if (seg.dataset.seg === 'billTab') { S.f.billStatus = 'open'; S.f.owedF = 'all'; } renderShell(); renderBody(); return; }
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const act = a.dataset.act, id = a.dataset.id;
+  if (S.readOnly && !['closeDlg', 'openClient', 'openInvoice', 'openQuote', 'docPdf', 'docMsg', 'copyMsg', 'wkPrev', 'wkNext', 'wkToday', 'cancelConfirm', 'lockNow', 'planWeekCur', 'bwGroups', 'more', 'runPdf', 'runMsg', 'priceMsg', 'routeOrder', 'billingRun', 'csvTax'].includes(act)) { toast('This view can read the data but not edit it.', true); return; }
+  switch (act) {
+    case 'bwGroups': { const sc = 0; bwDialog(); break; }
+    case 'setBw': { const c = clone(S.clients[id]); c.bwGroup = c.bwGroup === a.dataset.g ? '' : a.dataset.g; const body = $('#dlgc .dlg-b'); const st = body ? body.scrollTop : 0; put('clients', id, c); bwDialog(); const nb = $('#dlgc .dlg-b'); if (nb) nb.scrollTop = st; renderBody(); break; }
+    case 'markAllPaid': markClientPaid(a.dataset.key); break;
+    case 'more': moreDialog(); break;
+    case 'signOut': window.__signOut && window.__signOut(); break;
+    case 'jsonBackup': offerFile(`B&B CO. HQ backup ${today()}.json`, JSON.stringify(fullBackup())); break;
+    case 'restoreBackup': { const f = $('#restoreFile')?.files?.[0]; if (!f) { toast('Choose a backup file first.', true); break; } try { restoreBackup(JSON.parse(await f.text())); } catch (er) { toast('That file couldn\'t be read.', true); } break; }
+    case 'planWeek': planWeekDialog(a.dataset.w); break;
+    case 'planWeekCur': planWeekDialog(S.weekStart); break;
+    case 'wpAuto': { WP.p.focus = $('#wp_focus')?.value ?? WP.p.focus; const ds = a.dataset.v.split(',').map(Number); const sm = weekSummary(WP.ws); const list = sm.dueList; const per = Math.ceil(list.length / ds.length) || 1; WP.p.days = {}; list.forEach((cid, k) => { WP.p.days[cid] = ds.at(Math.min(ds.length - 1, Math.floor(k / per))); }); renderWP(); break; }
+    case 'wpClear': WP.p.focus = $('#wp_focus')?.value ?? WP.p.focus; WP.p.days = {}; renderWP(); break;
+    case 'wpSave': { WP.p.focus = $('#wp_focus').value.trim(); savePlan(WP.ws, WP.p); const g = Number($('#wp_goal').value) || 0; if (g !== (Number(S.settings.weeklyGoal) || 0)) { const data = Object.assign({}, S.settings, { weeklyGoal: g }); S.settings = data; save('settings/business', data); } closeDlg(); toast('Week planned'); renderBody(); break; }
+    case 'lockNow': showLock(); break;
+    case 'pinSet': pinSet(); break;
+    case 'pinOff': pinOff(); break;
+    case 'pinChange': S.f.pinChange = true; renderShell(); break;
+    case 'pinCancel': S.f.pinChange = false; renderShell(); break;
+    case 'billingRun': billingRunDialog(); break;
+    case 'calc': calcDialog(); break;
+    case 'calcFor': calcDialog({ client: clientLabel(S.clients[id]) }); break;
+    case 'qcDiff': readCalc(); CALC.diff = a.dataset.v; renderCalc(); break;
+    case 'qcAddMat': readCalc(); CALC.materials.push({ desc: '', cost: '' }); renderCalc(); document.querySelector('#qcMats [data-mi]:last-child input')?.focus(); break;
+    case 'qcRmMat': readCalc(); CALC.materials.splice(Number(a.dataset.i), 1); renderCalc(); break;
+    case 'qcSaveRates': { const g = k => Number($('#qr_' + k).value) || 0; const calc = { rate: g('rate') || 60, wage: g('wage'), markup: g('markup'), minimum: g('minimum'), fuel: g('fuel'), round: g('round'), premium: calcRates().premium, travelMin: calcRates().travelMin }; const data = Object.assign({}, S.settings, { calc }); S.settings = data; save('settings/business', data); renderCalcOut(); toast('Rates saved'); break; }
+    case 'qcQuote': calcToQuote(); break;
+    case 'runReset': RUN = null; billingRunDialog(); break;
+    case 'runCreate': { const ids = runCandidates().filter(x => !RUN.skip[x.cid]).map(x => createInvoice(x.cid, x.es)); RUN.done = ids; renderRun(); renderBody(); break; }
+    case 'runPdf': { const d = S.invoices[id]; try { const blob = buildPdf('invoices', d); await offerFile(`${d.number} ${d.clientName}.pdf`.replace(/[\\/:*?"<>|]/g, ''), blob); } catch (err) { toast('The PDF maker did not load. Reload the page and try again.', true); } break; }
+    case 'runMsg': { const d = S.invoices[id]; try { await navigator.clipboard.writeText(docMessage('invoices', d)); toast(`Message for ${d.clientName} copied`); } catch (err) { docDialog('invoices', id); toast('Use “Write message” to copy it from here.'); } break; }
+    case 'newCampaign': campaignDialog(); break;
+    case 'campWho': readCampTop(); CAMP.who = a.dataset.v; renderCamp(); break;
+    case 'campAll': readCampTop(); campList().forEach(([cid]) => CAMP.sel[cid] = true); renderCamp(); break;
+    case 'campNone': readCampTop(); CAMP.sel = {}; renderCamp(); break;
+    case 'campCreate': createCampaign(); break;
+    case 'quickSend': { const d = S.quotes[id]; try { await navigator.clipboard.writeText(docMessage('quotes', d)); put('quotes', id, Object.assign(clone(d), { status: 'sent', sentOn: today() })); toast(`Message for ${d.clientName} copied · marked sent`); renderBody(); } catch (err) { docDialog('quotes', id); toast('Use “Write message” to copy it from here.'); } break; }
+    case 'qStatus': { const d = clone(S.quotes[id]); const prev = d.status; d.status = a.dataset.s; put('quotes', id, d); renderBody(); toast(`${d.clientName}: ${d.status === 'accepted' ? 'booked' : 'declined'}`, false, () => { put('quotes', id, Object.assign(clone(S.quotes[id]), { status: prev })); renderBody(); }); break; }
+    case 'quoteJob': { const d = S.quotes[id]; jobDialog(null, { clientId: d.clientId, clientName: d.clientName, service: (d.items || [])[0]?.desc || '', amount: docTotal(d).sub }); break; }
+    case 'saveNextPrices': { let n = 0; for (const [cid, c] of sortedClients()) { if (c.active === false || !['weekly', 'biweekly', 'monthly', 'oncall'].includes(c.frequency)) continue; const np = proposedPrice(c); if (np !== Number(c.mowPrice) && np !== c.nextPrice) { put('clients', cid, Object.assign(clone(c), { nextPrice: np })); n++; } } toast(n ? `Saved next season's price for ${n} clients` : 'No price changes to save'); renderBody(); break; }
+    case 'applyNextPrices': { let n = 0; for (const [cid, c] of sortedClients()) if (c.nextPrice) { const nc = clone(c); nc.mowPrice = c.nextPrice; delete nc.nextPrice; put('clients', cid, nc); n++; } toast(`${n} clients switched to new prices`); renderBody(); break; }
+    case 'priceMsg': { const c = S.clients[id]; try { await navigator.clipboard.writeText(priceMessage(c, Number(a.dataset.p))); toast(`Price message for ${c.name} copied`); } catch (err) { toast('Copy did not work in this browser.', true); } break; }
+    case 'routeOrder': routeDialog(); break;
+    case 'routeMove': routeMove(id, Number(a.dataset.d)); break;
+    case 'rainDay': rainDay(); break;
+    case 'csvTax': { const t = taxData(S.year); const rows = [['Line', 'Amount'], ['Gross business income', r2(t.rev)], ...(t.hst ? [['HST collected', r2(t.hst)]] : []), ...t.lines.map(([k, v]) => [k, r2(v)]), ['Total expenses', r2(t.exp)], ['Net income', r2(t.net)]]; offerFile(`B&B CO. tax summary ${S.year}.csv`, csv(rows)); break; }
+    case 'newWorker': workerDialog(null); break;
+    case 'openWorker': workerDialog(id); break;
+    case 'newShift': shiftDialog(null); break;
+    case 'openShift': shiftDialog(id); break;
+    case 'payWorker': e.stopPropagation(); payWorker(id); break;
+    case 'delWorker': del('crew', id); closeDlg(); toast('Worker deleted'); renderBody(); break;
+    case 'delShift': del('shifts', id); closeDlg(); toast('Shift deleted'); renderBody(); break;
+    case 'wkPrev': S.weekStart = addDays(S.weekStart, -7); renderBody(); break;
+    case 'wkNext': S.weekStart = addDays(S.weekStart, 7); renderBody(); break;
+    case 'wkToday': S.weekStart = mondayOf(today()); renderBody(); break;
+    case 'toggleFront': { e.stopPropagation(); const d = clone(S.weeks[S.weekStart]); const en = d.entries[id]; const c = S.clients[id] || {}; if (en.invoiceId) { toast('That mow is on an invoice already.', true); break; } en.front = !en.front; en.amount = en.front ? (Number(c.frontPrice) || en.amount) : (Number(c.mowPrice) || en.amount); put('weeks', S.weekStart, d); renderBody(); toast(en.front ? `Front only · ${money0(en.amount)}` : `Full cut · ${money0(en.amount)}`); break; }
+    case 'toggleMowPaid': { e.stopPropagation(); const d = clone(S.weeks[S.weekStart]); d.entries[id].paid = !d.entries[id].paid; put('weeks', S.weekStart, d); renderBody(); break; }
+    case 'toggleMow': toggleMow(id); break;
+    case 'tickAll': { const ws = S.weekStart, doc = clone(S.weeks[ws]) || { entries: {} }; doc.entries = doc.entries || {}; const t = today(); const date = (t >= ws && t <= addDays(ws, 6)) ? t : ws; let n = 0;
+      for (const cid of weekSummary(ws).dueList) if (!doc.entries[cid]) { const c = S.clients[cid]; doc.entries[cid] = { amount: Number(c.mowPrice) || 0, paid: false, date, name: c.name, address: c.address || '' }; n++; }
+      put('weeks', ws, doc); toast(`${n} lawns marked done`); renderBody(); break; }
+    case 'toggleSubPaid': { e.stopPropagation(); const jid = `sub_${id}_${S.weekStart.slice(0, 7)}`; const j = clone(S.jobs[jid]); j.paid = !j.paid; put('jobs', jid, j); renderBody(); break; }
+    case 'toggleSub': { const ym = S.weekStart.slice(0, 7), jid = `sub_${id}_${ym}`; const c = S.clients[id];
+      if (S.jobs[jid]) { if (S.jobs[jid].invoiceId) { toast('That charge is on an invoice. Remove it from the invoice first.', true); break; } del('jobs', jid); }
+      else put('jobs', jid, { date: ym + '-01', clientId: id, clientName: c.name, address: c.address || '', service: `Lawn care plan — ${MONTHS_L[monthOf(ym + '-01')]}`, amount: Number(c.mowPrice) || 0, paid: false, kind: 'sub', notes: '' });
+      renderBody(); break; }
+    case 'togglePaid': { e.stopPropagation(); const en = entryByKey(a.dataset.key); if (en) { setEntryPaid(en.src, !en.paid); renderBody(); } break; }
+    case 'openEntry': { const en = entryByKey(a.dataset.key); if (!en) break; if (en.src.t === 'job') jobDialog(en.src.id); else mowDialog(en.src.w, en.src.cid); break; }
+    case 'newJob': jobDialog(null); break;
+    case 'jobFor': jobDialog(null, { clientId: id }); break;
+    case 'openClient': clientDialog(id); break;
+    case 'newClient': clientDialog(null); break;
+    case 'newExpense': expenseDialog(null); break;
+    case 'openExpense': expenseDialog(id); break;
+    case 'newQuote': docDialog('quotes', null); break;
+    case 'quoteFor': docDialog('quotes', null, { clientId: id, clientName: S.clients[id]?.name, address: S.clients[id]?.address }); break;
+    case 'newInvoice': docDialog('invoices', null); break;
+    case 'openInvoice': docDialog('invoices', id); break;
+    case 'openQuote': docDialog('quotes', id); break;
+    case 'invoiceUnpaid': { const c = S.clients[id]; const es = clientStats(id, null).entries.filter(x => !x.paid && !x.invoiceId).sort((x, y) => x.date.localeCompare(y.date));
+      if (!es.length) { toast('Those unpaid jobs are already on an invoice.', true); break; }
+      docDialog('invoices', null, { clientId: id, clientName: c.name, address: c.address, items: itemsFromEntries(es), refs: es.map(x => x.src) });
+      ED.pendingRefs = true; break; }
+    case 'addItem': readItems(); ED.doc.items.push({ desc: '', qty: 1, rate: '' }); renderItems(); $('#itemRows .item:last-child input')?.focus(); break;
+    case 'rmItem': readItems(); ED.doc.items.splice(Number(a.dataset.i), 1); if (!ED.doc.items.length) ED.doc.items.push({ desc: '', qty: 1, rate: '' }); renderItems(); break;
+    case 'docPdf': { if (!$('#d_client').value.trim()) { toast('Pick a client first.', true); break; } const d = collectDoc();
+      try { const blob = buildPdf(ED.coll, d); await offerFile(`${d.number} ${d.clientName}.pdf`.replace(/[\\/:*?"<>|]/g, ''), blob); } catch (err) { toast('The PDF maker did not load. Check your connection and reopen the page.', true); } break; }
+    case 'docMsg': { const d = collectDoc(); $('#msgText').value = docMessage(ED.coll, d); $('#msgArea').hidden = false; $('#msgText').focus(); break; }
+    case 'copyMsg': { const t = $('#msgText'); try { await navigator.clipboard.writeText(t.value); toast('Message copied'); } catch (err) { t.select(); toast('Press Ctrl+C or ⌘C to copy'); } break; }
+    case 'quoteToInvoice': { if (!saveDoc()) break; const q = clone(ED.doc); q.status = 'accepted'; put('quotes', ED.id, q);
+      docDialog('invoices', null, { clientId: q.clientId, clientName: q.clientName, address: q.address, items: q.items, taxRate: q.taxRate, notes: '', fromQuote: q.number }); toast('Quote accepted. Review and save the invoice.'); break; }
+    case 'askConfirm': $('#confirmBar').hidden = false; break;
+    case 'cancelConfirm': $('#confirmBar').hidden = true; break;
+    case 'delJob': del('jobs', id); closeDlg(); toast('Job deleted'); renderBody(); break;
+    case 'delMow': { const [w, cid] = id.split('|'); const d = clone(S.weeks[w]); delete d.entries[cid]; if (!weekEmpty(d)) put('weeks', w, d); else del('weeks', w); closeDlg(); toast('Mow removed'); renderBody(); break; }
+    case 'delClient': del('clients', id); closeDlg(); toast('Client deleted'); renderBody(); break;
+    case 'delExpense': del('expenses', id); closeDlg(); toast('Expense deleted'); renderBody(); break;
+    case 'delDoc': { const d = S[ED.coll][id]; if (ED.coll === 'invoices' && d?.refs) d.refs.forEach(src => setEntryPaid(src, src.t === 'job' ? !!S.jobs[src.id]?.paid : !!S.weeks[src.w]?.entries?.[src.cid]?.paid, '')); del(ED.coll, id); closeDlg(); toast('Deleted'); renderBody(); break; }
+    case 'closeDlg': closeDlg(); break;
+    case 'csvJobs': { const rows = [['Date', 'Client', 'Address', 'Service', 'Type', 'Amount', 'Paid']]; revenueEntries().sort((x, y) => x.date.localeCompare(y.date)).forEach(x => rows.push([x.date, x.clientName, x.address, x.service, x.kind, x.amount, x.paid ? 'Yes' : 'No'])); offerFile(`B&B CO. jobs ${today()}.csv`, csv(rows)); break; }
+    case 'csvExpenses': { const rows = [['Date', 'Category', 'Description', 'Amount']]; Object.values(S.expenses).sort((x, y) => x.date.localeCompare(y.date)).forEach(x => rows.push([x.date, x.category, x.description, x.amount])); offerFile(`B&B CO. expenses ${today()}.csv`, csv(rows)); break; }
+    case 'csvClients': { const rows = [['Name', 'Address', 'Phone', 'Email', 'Plan', 'Price', 'Active', 'Notes']]; sortedClients().forEach(([, c]) => rows.push([c.name, c.address, c.phone, c.email, FREQ[c.frequency], c.mowPrice, c.active !== false ? 'Yes' : 'No', c.notes])); offerFile(`B&B CO. clients ${today()}.csv`, csv(rows)); break; }
+  }
+});
+document.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && e.target.matches('.lawn')) { e.preventDefault(); e.target.click(); } });
+document.addEventListener('input', e => { const k = e.target.dataset?.f; if (!k || k === 'year' || e.target.type === 'checkbox') return; S.f[k] = e.target.value; scheduleRender(); });
+document.addEventListener('change', e => {
+  if (e.target.dataset?.minutes) { const cid = e.target.dataset.minutes; const c = clone(S.clients[cid]); c.mowMinutes = Number(e.target.value) || 0; put('clients', cid, c); renderBody(); return; }
+  if (e.target.id === 'targetRate') { const d = Object.assign({}, S.settings, { targetRate: Number(e.target.value) || 60 }); S.settings = d; save('settings/business', d); renderBody(); return; }
+  const k = e.target.dataset?.f; if (!k) return; if (k === 'year') { S.year = Number(e.target.value); renderBody(); return; } S.f[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value; renderBody(); });
+document.addEventListener('submit', e => { if (e.target.id !== 'setForm') return; e.preventDefault();
+  const v = id => $('#s_' + id).value.trim();
+  const data = Object.assign({}, S.settings, { goalYear: Number(v('goalYear')) || 0, goalMonth: Number(v('goalMonth')) || 0, businessName: v('businessName') || 'B&B CO.', tagline: v('tagline'), phone: v('phone'), email: v('email'), etransfer: v('etransfer'), address: v('address'), hst: v('hst'), taxRate: Number(v('taxRate')) || 0, terms: v('terms'), services: v('services') });
+  S.settings = data; save('settings/business', data); toast('Settings saved'); });
+let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (S.view === 'home') { const el = $('#chart'); if (el) renderBody(); } }, 200); });
+
+// ---------- boot ----------
+S.view = 'home'; try { const v = localStorage.getItem('bnb.view2'); if (v && VIEWS[v]) S.view = v; } catch (e) {}
+document.querySelectorAll('[data-go]').forEach(b => { if (b.dataset.go === S.view) b.setAttribute('aria-current', 'page'); });
+function fail(msg) { $('#boot').innerHTML = `<h2>Can't load your data here</h2><p>${msg}</p>`; }
+(async () => {
+  const db = await claude.use('db');
+  if (!db) { fail('Open this page in Claude while signed in to the account that owns it.'); return; }
+  S.db = db;
+  const onErr = err => { if (err && err.code === 'revoked') fail('Access to this data was turned off.'); else toast('Lost the live connection. Reload the page to reconnect.', true); };
+  const sub = coll => db.collection(coll).limit(1000).onSnapshot(snap => { const o = {}; snap.docs.forEach(d => { o[d.id] = d.data(); }); S[coll] = o; const first = !S.loaded.has(coll); S.loaded.add(coll); if (first && ready()) { renderShell(); } scheduleRender(); }, onErr);
+  ['clients', 'jobs', 'weeks', 'expenses', 'quotes', 'invoices', 'crew', 'shifts', 'weekplans'].forEach(sub);
+  db.doc('settings/business').onSnapshot(snap => { S.settings = snap.exists ? clone(snap.data()) : {}; const first = !S.loaded.has('settings'); if (first) initLock(); else updateLockBtn(); S.loaded.add('settings'); if (first && ready()) renderShell(); if (S.view !== 'settings') scheduleRender(); }, onErr);
+  setTimeout(() => { if (!ready()) $('#boot').querySelector('p').textContent = 'Still connecting… if this takes long, reload the page.'; }, 8000);
+})();
+// re-render shell lists (months, years) when underlying data changes, but never while the user types in them
+VIEWS.jobs.refreshShell = VIEWS.costs.refreshShell = VIEWS.home.refreshShell = function () { const a = document.activeElement; if (a && $('#vshell').contains(a) && a.matches('input,textarea')) return; const pos = a && a.id; $('#vshell').innerHTML = VIEWS[S.view].shell(); if (pos) { const el = document.getElementById(pos); if (el) { el.focus(); } } };
+})();
+
+</script>
+
+<script type="module" src="firebase-shim.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "B&B CO. HQ",
+  "short_name": "B&B HQ",
+  "description": "Run B&B CO.: lawns, jobs, clients, quotes, invoices, expenses and crew.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F2F4F2",
+  "theme_color": "#1F4D3A",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
