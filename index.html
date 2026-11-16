@@ -788,7 +788,8 @@ VIEWS.settings = {
       <div class="field wide"><button class="btn primary" type="submit" style="justify-self:start">Save settings</button></div></form></section>
     ${pinPanel()}
     <section class="panel"><h3>Back up your data</h3><p class="muted small" style="margin:0 0 10px">Download spreadsheets of everything you've logged. Opens in Excel or Google Sheets.</p><div class="toolbar"><button class="btn" data-act="csvJobs">Jobs &amp; mows (.csv)</button><button class="btn" data-act="csvExpenses">Expenses (.csv)</button><button class="btn" data-act="csvClients">Clients (.csv)</button><button class="btn" data-act="jsonBackup">Full backup (.json)</button>${window.__signOut ? '<button class="btn" data-act="signOut">Sign out</button>' : ''}</div>
-      <div style="margin-top:12px"><span class="label">Restore from a full backup</span><div class="toolbar" style="margin-top:6px"><input class="inp" id="restoreFile" type="file" accept="application/json,.json" style="max-width:320px"><button class="btn" data-act="restoreBackup">Restore</button></div><p class="small muted" style="margin:6px 0 0">Adds or replaces records from the backup file. Nothing else is deleted.</p></div></section>`; },
+      <div style="margin-top:12px"><span class="label">Restore from a full backup</span><div class="toolbar" style="margin-top:6px"><input class="inp" id="restoreFile" type="file" accept="application/json,.json" style="max-width:320px"><button class="btn" data-act="restoreBackup">Restore</button></div><p class="small muted" style="margin:6px 0 0">Adds or replaces records from the backup file. Nothing else is deleted.</p></div></section>
+    <p class="small muted" style="text-align:center;margin:16px 0 4px">App version 1.1</p>`; },
   body: () => ''
 };
 
