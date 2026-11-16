@@ -788,7 +788,8 @@ VIEWS.settings = {
       <div class="field wide"><button class="btn primary" type="submit" style="justify-self:start">Save settings</button></div></form></section>
     ${pinPanel()}
     <section class="panel"><h3>Back up your data</h3><p class="muted small" style="margin:0 0 10px">Download spreadsheets of everything you've logged. Opens in Excel or Google Sheets.</p><div class="toolbar"><button class="btn" data-act="csvJobs">Jobs &amp; mows (.csv)</button><button class="btn" data-act="csvExpenses">Expenses (.csv)</button><button class="btn" data-act="csvClients">Clients (.csv)</button><button class="btn" data-act="jsonBackup">Full backup (.json)</button>${window.__signOut ? '<button class="btn" data-act="signOut">Sign out</button>' : ''}</div>
-      <div style="margin-top:12px"><span class="label">Restore from a full backup</span><div class="toolbar" style="margin-top:6px"><input class="inp" id="restoreFile" type="file" accept="application/json,.json" style="max-width:320px"><button class="btn" data-act="restoreBackup">Restore</button></div><p class="small muted" style="margin:6px 0 0">Adds or replaces records from the backup file. Nothing else is deleted.</p></div></section>`; },
+      <div style="margin-top:12px"><span class="label">Restore from a full backup</span><div class="toolbar" style="margin-top:6px"><input class="inp" id="restoreFile" type="file" accept="application/json,.json" style="max-width:320px"><button class="btn" data-act="restoreBackup">Restore</button></div><p class="small muted" style="margin:6px 0 0">Adds or replaces records from the backup file. Nothing else is deleted.</p></div></section>
+    <p class="small muted" style="text-align:center;margin:16px 0 4px">App version 1.1</p>`; },
   body: () => ''
 };
 
@@ -1485,7 +1486,7 @@ function pinPanel() {
     ${on && !S.f.pinChange ? `<div class="pinrow"><label class="field" style="width:220px"><span>Lock</span>${minsSel('pinMinsOn')}</label><button class="btn" data-act="pinChange">Change passcode</button><button class="btn" data-act="lockNow">Lock now</button></div>
       <div class="pinrow" style="margin-top:12px">${pinIn('pinCur', 'Current passcode')}<button class="btn danger" data-act="pinOff">Turn passcode off</button></div>`
     : `<div class="pinrow">${on ? pinIn('pinCur', 'Current passcode') : ''}${pinIn('pin1', on ? 'New passcode' : 'Choose a passcode')}${pinIn('pin2', 'Type it again')}<label class="field" style="width:220px"><span>Lock</span>${minsSel('pinMins')}</label><button class="btn primary" data-act="pinSet">${on ? 'Save new passcode' : 'Turn on passcode'}</button>${on ? '<button class="btn" data-act="pinCancel">Cancel</button>' : ''}</div>`}
-    <p class="small muted" style="margin:12px 0 0">This is a privacy screen on top of your Claude sign-in, not bank-level security.</p></section>`;
+    <p class="small muted" style="margin:12px 0 0">This is a privacy screen on top of your Google sign-in, not bank-level security.</p></section>`;
 }
 async function pinSet() {
   const a = $('#pin1').value, b = $('#pin2').value;
@@ -1633,7 +1634,7 @@ document.querySelectorAll('[data-go]').forEach(b => { if (b.dataset.go === S.vie
 function fail(msg) { $('#boot').innerHTML = `<h2>Can't load your data here</h2><p>${msg}</p>`; }
 (async () => {
   const db = await claude.use('db');
-  if (!db) { fail('Open this page in Claude while signed in to the account that owns it.'); return; }
+  if (!db) { fail('Reload the page and sign in with the Google account that owns this business.'); return; }
   S.db = db;
   const onErr = err => { if (err && err.code === 'revoked') fail('Access to this data was turned off.'); else toast('Lost the live connection. Reload the page to reconnect.', true); };
   const sub = coll => db.collection(coll).limit(1000).onSnapshot(snap => { const o = {}; snap.docs.forEach(d => { o[d.id] = d.data(); }); S[coll] = o; const first = !S.loaded.has(coll); S.loaded.add(coll); if (first && ready()) { renderShell(); } scheduleRender(); }, onErr);
